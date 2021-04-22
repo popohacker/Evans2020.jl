@@ -1,25 +1,27 @@
 using Distributions
+using LinearAlgebra
 
 #questions 
 # 1 : args python vs julia
 # 2 : np. python ?? is inf... 
 
-function trunc_norm_draws(unif_vals::Matrix, mu::Int64, sigma::Int64, cut_lb= nothing, cut_ub=nothing)
-    if cut_lb == nothing & cut_ub == nothing
+function trunc_norm_draws(unif_vals::Array, mu::Float64, sigma::Float64, cut_lb::Any, cut_ub::Any)
+    if cut_lb == nothing && cut_ub == nothing
         cut_ub_cdf = 1.0
         cut_lb_cdf = 0.0
-    elseif cut_lb != nothing & cut_ub == nothing
+    elseif cut_lb != nothing && cut_ub == nothing
         cut_ub_cdf = 1.0
         cut_lb_cdf = cdf.(Normal(mu, sigma),  cut_lb)
-    elseif cut_lb == nothing & cut_ub != nothing
+    elseif cut_lb == nothing && cut_ub != nothing
         cut_ub_cdf = cdf.(Normal(mu, sigma), cut_ub)
         cut_lb_cdf = 0.0
-    elseif cut_lb != nothing & cut_ub != nothing
+    elseif cut_lb != nothing && cut_ub != nothing
         cut_ub_cdf = cdf.(Normal(mu, sigma), cut_ub)
         cut_lb_cdf = cdf.(Normal(mu, sigma),  cut_lb)
     end
-    unif2_vals = unif_vals * (cut_ub_cdf - cut_lb_cdf) + cut_lb_cdf
-    tnorm_draws = pdf.(Normal(mu, sigma), unif2_vals)
+	
+    unif2_vals = transpose(reduce(hcat, unif_vals)) .* (cut_ub_cdf - cut_lb_cdf) .+ cut_lb_cdf # CHECK LATER -- on utilisait une matrice au format python pour tester la fonction mais peut être que quand elle sera directement générée par Julia pas besoin de transpose(reduce())
+    tnorm_draws = quantile.(Normal(mu, sigma), unif2_vals)
 
     return tnorm_draws
 end
