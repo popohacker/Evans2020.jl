@@ -1,4 +1,6 @@
 #Import packages 
+using Distributions
+using Random
 #à compléter
 
 #Create output directory
@@ -171,3 +173,31 @@ mu_arr[:, :, 3] = mu_mat
 # print("mu_arr 3")
 # print(mu_arr[:, :, 3])
 # print(" ")
+
+@time begin 
+
+default_arr = zeros(Bool, (Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T))
+
+Random.seed!(rand_seed) #pas parfaitement sûre
+unif_mat = rand(Uniform(0, 1), (S, T)) #pas parfaitement sûre
+
+# First three dimensions of zt_arr correspond to mu_arr in different
+# order
+zt_arr = zeros(3, avg_rtp1_size, avg_rbart_size, S, T)
+for sig_ind in range(1, stop=(3-1), step=1)
+    sigma = sigma_vec[sig_ind]
+    for avgrtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
+        for avgrbart_ind in range(1, stop=(avg_rbart_size-1), step=1)
+            mu = mu_arr[avgrtp1_ind, avgrbart_ind, sig_ind]
+            for s_ind in range(1, stop=(S-1), step=1)
+                for t_ind in range(1, stop=(T-1), step=1)
+                    unif = unif_mat[s_ind, t_ind]
+                    if t_ind == 1 && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]
+                        cut_lb = z_min - mu
+                        eps_t = funcs.trunc_norm_draws(unif, 0, sigma, cut_lb)
+                        z_t = mu + eps_t
+                    elseif ((t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]) #j'ai gardé les deux parenthèses comme sur le fichier Python mais je suis pas sûre de pourquoi il fait ça
+
+                            
+                            
+end #celui de time
