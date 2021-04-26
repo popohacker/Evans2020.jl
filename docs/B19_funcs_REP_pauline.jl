@@ -1,3 +1,5 @@
+#YOOOO This one is Circe's branch
+
 using Distributions
 using LinearAlgebra
 
@@ -84,5 +86,21 @@ function get_r(k2t, zt, args)
 return rt
 end
 
+function get_Ht(wt,args)
+	tau, Hbar, n1, x1, c_min, K_min = args
+	default = "false"
+	if tau == nothing 
+		Ht = min(Hbar, wt * n1 + x1 - c_min - K_min)
+		if Ht < Hbar
+			default = "True"
+	elseif tau > 0 && tau < 1
+			Ht = tau * (wt * n1 + x1)
+	elseif tau <= 0 || tau >= 1
+		err_msg = "ERROR get_Ht(): tau is not valid value."
+        print(err_msg)
+		end
+	end
+	return Ht, default	
+end
 
 
