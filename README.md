@@ -1,1 +1,6 @@
-# Hi world, we are three amazing hacker who are gonna revolutionize the dynamic programming world ! woop woop
+# Computational Economics : Final Project 
+
+# Group : Naomi Cohen, Circé Maillet, Pauline Gautrot
+
+# Paper : Public Debt, Interest Rates and Negative Shocks (R.W. Evans, 2020)
+
