@@ -1,9 +1,9 @@
-#Import packages 
+# Import packages 
 using Distributions
 using Random
 #à compléter
 
-#Create output directory
+# Create output directory
 #à compléter
 
 
@@ -181,8 +181,7 @@ default_arr = zeros(Bool, (Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T)
 Random.seed!(rand_seed) #pas parfaitement sûre
 unif_mat = rand(Uniform(0, 1), (S, T)) #pas parfaitement sûre
 
-# First three dimensions of zt_arr correspond to mu_arr in different
-# order
+# First three dimensions of zt_arr correspond to mu_arr in different order
 zt_arr = zeros(3, avg_rtp1_size, avg_rbart_size, S, T)
 for sig_ind in range(1, stop=(3-1), step=1)
     sigma = sigma_vec[sig_ind]
@@ -197,7 +196,19 @@ for sig_ind in range(1, stop=(3-1), step=1)
                         eps_t = funcs.trunc_norm_draws(unif, 0, sigma, cut_lb)
                         z_t = mu + eps_t
                     elseif ((t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]) #j'ai gardé les deux parenthèses comme sur le fichier Python mais je suis pas sûre de pourquoi il fait ça
-
+                        z_tm1 = zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind - 1]
+                        cut_lb = z_min - rho * z_tm1 - (1 - rho) * mu
+                        eps_t = funcs.trunc_norm_draws(unif, 0, sigma, cut_lb)
+                        z_t = rho * z_tm1 + (1 - rho) * mu .+ eps_t 
+                    else
+                        z_t = NaN
+                        zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind] = z_t
+                    end 
+                end 
+            end 
+        end 
+    end 
+end 
                             
                             
 end #celui de time
