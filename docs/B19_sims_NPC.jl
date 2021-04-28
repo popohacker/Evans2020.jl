@@ -7,7 +7,7 @@ using Random
 #à compléter et vérifier
 
 
-include("B19_funcs_NPC.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia
+include("B19_funcs_NPC.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia #ne pas commenter que si vous avez le fichier en question dans le même directory que celui que vous utilisez
 
 
 yrs_in_per = 25
@@ -65,7 +65,7 @@ print("Cores available on this machine = ", max_cores, " ")
 num_workers = min(max_cores, S)
 print("Number of workers = ", num_workers)
 #client = Client(processes=False) #pas réussi à transcrire cette ligne en julia pour l'instant
--p num_workers
+#-p num_workers #sort une erreur sur Julia
 
 # print("sigma")
 # print(sigma)
@@ -213,32 +213,27 @@ for sig_ind in range(1, stop=(3-1), step=1)
         end 
     end 
 end 
-                            
-                            
-end #celui de time
-                        
+                                       
 #fin du code de nao
 #je reprends a ligne 338
 #pas encore fait tourner                        
 c1t_arr = zero(default_arr)
 c2t_arr = zero(default_arr)
-ut_arr = zeros((Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S,
-                   T - 1))
+ut_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T - 1)
 Ht_arr = zero(default_arr)
 wt_arr = zero(default_arr)
 rt_arr = zero(default_arr)
-k2t_arr = nzero(default_arr)
-rbart_arr = zeros(default_arr)
-rbart_an_arr = zeros(default_arr)
+k2t_arr = zero(default_arr)
+rbart_arr = zero(default_arr)
+rbart_an_arr = zero(default_arr)
 EulErr_arr = zero(default_arr)
-PathTime_arr = zeros((Hbar_size, 2, 3, avg_rtp1_size,
-                         avg_rbart_size, S))
-s_ind_arr = zeros((Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size,
-                      S))
-for rtp1_ind in 1:avg_rtp1_size
-    for rbart_ind in 1:avg_rbart_size
-    k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 0] = \ #je dois encore verifier cette ligne
-    kbar2_mat[rtp1_ind, rbart_ind]
-     end
-  end
-  #pas encore fait tourner 
+PathTime_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
+s_ind_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
+for rtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
+    for rbart_ind in range(1, stop=(avg_rbart_size-1), step=1)
+    k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 1] .=  kbar2_mat[rtp1_ind, rbart_ind] #je dois encore verifier cette ligne
+    end
+end
+#pas encore fait tourner 
+
+end #celui de time
