@@ -65,6 +65,7 @@ print("Cores available on this machine = ", max_cores, " ")
 num_workers = min(max_cores, S)
 print("Number of workers = ", num_workers)
 #client = Client(processes=False) #pas réussi à transcrire cette ligne en julia pour l'instant
+-p num_workers
 
 # print("sigma")
 # print(sigma)
@@ -215,3 +216,29 @@ end
                             
                             
 end #celui de time
+                        
+#fin du code de nao
+#je reprends a ligne 338
+#pas encore fait tourner                        
+c1t_arr = zero(default_arr)
+c2t_arr = zero(default_arr)
+ut_arr = zeros((Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S,
+                   T - 1))
+Ht_arr = zero(default_arr)
+wt_arr = zero(default_arr)
+rt_arr = zero(default_arr)
+k2t_arr = nzero(default_arr)
+rbart_arr = zeros(default_arr)
+rbart_an_arr = zeros(default_arr)
+EulErr_arr = zero(default_arr)
+PathTime_arr = zeros((Hbar_size, 2, 3, avg_rtp1_size,
+                         avg_rbart_size, S))
+s_ind_arr = zeros((Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size,
+                      S))
+for rtp1_ind in 1:avg_rtp1_size
+    for rbart_ind in 1:avg_rbart_size
+    k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 0] = \ #je dois encore verifier cette ligne
+    kbar2_mat[rtp1_ind, rbart_ind]
+     end
+  end
+  #pas encore fait tourner 
