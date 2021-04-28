@@ -1,14 +1,17 @@
 # Import packages 
 using Distributions
 using Random
-#à compléter
+#à compléter si besoin
+
+include("B19_funcs_NPC.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia
 
 # Create output directory
-#à compléter et vérifier
-
-
-include("B19_funcs_NPC.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia #ne pas commenter que si vous avez le fichier en question dans le même directory que celui que vous utilisez
-
+cur_path = string(@__DIR__)
+output_fldr = "OUTPUT"
+output_dir = joinpath(cur_path, output_fldr)
+if !ispath(output_dir)
+mkpath(output_dir)
+end 
 
 yrs_in_per = 25
 beta_an = 0.96
