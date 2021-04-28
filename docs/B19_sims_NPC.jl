@@ -4,7 +4,10 @@ using Random
 #à compléter
 
 # Create output directory
-#à compléter
+#à compléter et vérifier
+
+
+include("B19_funcs_NPC.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia
 
 
 yrs_in_per = 25
@@ -193,12 +196,12 @@ for sig_ind in range(1, stop=(3-1), step=1)
                     unif = unif_mat[s_ind, t_ind]
                     if t_ind == 1 && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]
                         cut_lb = z_min - mu
-                        eps_t = funcs.trunc_norm_draws(unif, 0, sigma, cut_lb)
+                        eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb) #plus besoin de mettre funcs devant
                         z_t = mu + eps_t
                     elseif ((t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]) #j'ai gardé les deux parenthèses comme sur le fichier Python mais je suis pas sûre de pourquoi il fait ça
                         z_tm1 = zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind - 1]
                         cut_lb = z_min - rho * z_tm1 - (1 - rho) * mu
-                        eps_t = funcs.trunc_norm_draws(unif, 0, sigma, cut_lb)
+                        eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
                         z_t = rho * z_tm1 + (1 - rho) * mu .+ eps_t 
                     else
                         z_t = NaN
