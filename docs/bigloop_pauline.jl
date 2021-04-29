@@ -1,3 +1,7 @@
+using HDF5
+using JLD 
+
+
 for H_ind in 1:Hbar_size
     Hbar_in = Hbar_vec[H_ind]
     for risk_type_ind in 1:2 #0=xval, 1=sigval
@@ -14,8 +18,8 @@ for H_ind in 1:Hbar_size
                             sigma_in = sigma_vec[1]
                             x1_in = x1_arr[avgrtp1_ind, avgrbart_ind,
                                            risk_val_ind]
-                            z0_vec_in = zt_arr[0, avgrtp1_ind,
-                                           avgrbart_ind, :, 0] ##pas sure
+                            z0_vec_in = zt_arr[1, avgrtp1_ind,
+                                           avgrbart_ind, :, 1] ##pas sure
                         elseif risk_type_ind == 2 
                             mu_in = mu_arr[avgrtp1_ind, avgrbart_ind,
                                            risk_val_ind]
@@ -23,13 +27,13 @@ for H_ind in 1:Hbar_size
                             x1_in = x1_mat[avgrtp1_ind, avgrbart_ind]
                             z0_vec_in = zt_arr[risk_val_ind,
                                                avgrtp1_ind,
-                                               avgrbart_ind, :, 0]## pas sure
+                                               avgrbart_ind, :, 1]## pas sure
                         end
 
                         for s_ind in 1:S
                             z0_in = z0_vec_in[s_ind]
                             if risk_type_ind == 1
-                                zt_vec_in = zt_arr[0, avgrtp1_ind, avgrbart_ind,
+                                zt_vec_in = zt_arr[1, avgrtp1_ind, avgrbart_ind,
                                            s_ind, :]
                             elseif risk_type_ind == 2
                                 zt_vec_in = zt_arr[risk_type_ind, avgrtp1_ind,
@@ -145,7 +149,10 @@ for H_ind in 1:Hbar_size
                 #str(H_ind) + str(risk_type_ind) + str(risk_val_ind) +
                 #'.pkl\')')
             #exec('pickle.dump(dict_endog_new, open(outputfile, ' +
-                #'\'wb\'))')    
+                #'\'wb\'))')  
+                
+            save("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld", "dict_endog_new", dict_endog_new)   
+            #ça save dans le directory dans lequel on est -- s'assurer qu'on est dans output
             end
         end
     end
