@@ -103,4 +103,42 @@ function get_Ht(wt,args)
 	return Ht, default	
 end
 
-#HELLO WORLD
+#new changes - Pauline
+function get_Hbar_err(zt, length(args))
+    #
+    # This function is the error function that solves for the current
+    # period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
+    # the minimum shock that does not create default.
+    # '''
+    k2t, nvec, epsilon, alpha, Hbar, x1, c_min, K_min = args
+    n1 = nvec[1]
+    w_args = (nvec, epsilon, alpha)
+    wt = get_w(k2t, zt, w_args)
+    Hbar_err = Hbar - wt * n1 - x1 + c_min + K_min
+
+    return Hbar_err
+end
+
+using Roots
+
+function get_zstar(k2t, ztm1, args)
+    mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
+    mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
+    z_init = 1.5 * mu
+    z_mu = rho * ztm1 + (1 - rho) * mu
+    zst_args = (k2t, nvec, epsilon, alpha, Hbar, x1, c_min, K_min)
+    @vars zst_args
+    results = find_zero(get_Hbar_err, z_init)
+    z_star = results[1]
+    eps_star = z_star - rho * ztm1 - (1 - rho) * mu
+    A_star = exp.(z_star)
+    prob_shut = cdf.(Normal(z_mu, sigma), z_star)
+    if results.convergence_failed = true 
+        err_msg = ("zstar ERROR: Root finder did not solve in" +
+        "get_zstar().")
+        print("z_star = $z_star")
+        print("Hbar_err = $(get_Hbar_err[1])")
+        print(err_msg)
+    end
+    return z_star, eps_star, A_star, prob_shut
+end
