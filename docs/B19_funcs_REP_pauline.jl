@@ -142,3 +142,234 @@ function get_zstar(k2t, ztm1, args)
     end
     return z_star, eps_star, A_star, prob_shut
 end
+
+#### FROM HERE TO GET1PRMUC2PDF -- NO SYNTAX PROBLEM
+#### I HAVENT CHECKED THAT IT GIVES THE SAMES RESULTS AS PYTHON YET
+
+function get_Hbar_err(zt, x...)
+    #
+    # This function is the error function that solves for the current
+    # period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
+    # the minimum shock that does not create default.
+    # '''
+    
+    k2t, nvec, epsilon, alpha, Hbar, x1, c_min, K_min = x
+    n1 = nvec[1]
+    w_args = (nvec, epsilon, alpha)
+    wt = get_w(k2t, zt, w_args)
+    Hbar_err = Hbar - wt * n1 - x1 + c_min + K_min
+
+    return Hbar_err
+end
+
+
+
+using Roots
+using SymEngine
+
+function get_zstar(k2t, ztm1, args)
+    mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
+    mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
+    z_init = 1.5 * mu
+    z_mu = rho * ztm1 + (1 - rho) * mu
+    zst_args = (k2t, nvec, epsilon, alpha, Hbar, x1, c_min, K_min)
+    @vars zst_args
+    results = find_zero(get_Hbar_err, z_init)
+    z_star = results[1]
+    eps_star = z_star - rho * ztm1 - (1 - rho) * mu
+    A_star = exp.(z_star)
+    prob_shut = cdf.(Normal(z_mu, sigma), z_star)
+    if results.convergence_failed == true 
+        err_msg = ("zstar ERROR: Root finder did not solve in ... get_zstar().")
+        print("z_star = $z_star")
+        print("Hbar_err = $(get_Hbar_err[1])")
+        print(err_msg)
+    end
+    return z_star, eps_star, A_star, prob_shut
+end
+
+
+function get_c2t(k2t, zt, args)
+    nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min = args
+    w_args = (nvec, epsilon, alpha) 
+    wt = get_w(k2t, zt, w_args)
+    r_args = (nvec, epsilon, alpha, delta)
+    rt = get_r(k2t, zt, r_args)
+    H_args = (tau, Hbar, n1, x1, c_min, K_min)
+    Ht, default = get_Ht(wt, H_args)
+    c2t = (1 + rt) * k2t + wt * n2 + Ht
+
+    return c2t
+end
+
+function get_MUc_CRRA(c, gamma)
+    ###
+    #--------------------------------------------------------------------
+    #Generate marginal utility(ies) of consumption with CRRA consumption
+    #utility and stitched function at lower bound such that the new
+    #hybrid function is defined over all consumption on the real
+    #line but the function has similar properties to the Inada condition.
+
+    #u'(c) = c ** (-sigma) if c >= epsilon
+    #      = g'(c) = 2 * b2 * c + b1 if c < epsilon
+
+    #    such that g'(epsilon) = u'(epsilon)
+    #    and g''(epsilon) = u''(epsilon)
+
+    #    u(c) = (c ** (1 - sigma) - 1) / (1 - sigma)
+    #    g(c) = b2 * (c ** 2) + b1 * c + b0
+    #--------------------------------------------------------------------
+    #INPUTS:
+    #c  = scalar, individual consumption in a particular period
+    #gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
+    #        utility function: (c**(1-gamma) - 1) / (1 - gamma)
+    #graph = boolean, =True if want plot of stitched marginal utility of
+    #        consumption function
+
+    #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
+
+    #OBJECTS CREATED WITHIN FUNCTION:
+    #epsilon    = scalar > 0, positive value close to zero
+    #c_s        = scalar, individual consumption
+    #c_s_cnstr  = boolean, =True if c_s < epsilon
+    #b1         = scalar, intercept value in linear marginal utility
+    #b2         = scalar, slope coefficient in linear marginal utility
+    #MU_c       = scalar or (p,) vector, marginal utility of consumption
+                 or vector of marginal utilities of consumption
+    #p          = integer >= 1, number of periods remaining in lifetime
+    #cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
+
+    #FILES CREATED BY THIS FUNCTION:
+    #    MU_c_stitched.png
+
+    #RETURNS: MU_c
+    #--------------------------------------------------------------------
+    ###
+    c_epsilon = 1e-5
+    if c > c_epsilon
+        MUc = c .* (-gamma)
+    elseif c <= c_epsilon
+        b2 = (-gamma * (c_epsilon .* (-gamma - 1))) / 2
+        b1 = (c_epsilon .* (-gamma)) - 2 * b2 * c_epsilon
+        MUc = 2 * b2 * c + b1
+    end
+        # print('c=', c, ', MUc=', MUc)
+    return MUc
+end
+
+function get_c1mgam(c, gamma)
+    ###
+    #--------------------------------------------------------------------
+    #Generate marginal utility(ies) of consumption with CRRA consumption
+    #utility and stitched function at lower bound such that the new
+    #hybrid function is defined over all consumption on the real
+    #line but the function has similar properties to the Inada condition.
+
+    #f(c) = c ** (1-sigma) if c >= epsilon
+    #g(c) = b2 * c + b1    if c < epsilon
+
+    #    such that g(epsilon) = f(epsilon)
+    #    and g'(epsilon) = f'(epsilon)
+
+    #    f(c) = c ** (1 - sigma)
+    #    g(c) = b2 * c + b1
+
+    #    s.t. b2 = (1 - gamma) * (epsilon ** (-gamma))
+    #         b1 = epsilon**(-gamma) - (1-gamma) * (epsilon ** (1-gamma))
+    #--------------------------------------------------------------------
+    #INPUTS:
+    #c  = scalar, individual consumption in a particular period
+    #gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
+    #        utility function: (c**(1-gamma) - 1) / (1 - gamma)
+    #graph = boolean, =True if want plot of stitched marginal utility of
+    #        consumption function
+
+    #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
+
+    #OBJECTS CREATED WITHIN FUNCTION:
+    #epsilon    = scalar > 0, positive value close to zero
+    #b1         = scalar, intercept value in linear marginal utility
+    #b2         = scalar, slope coefficient in linear marginal utility
+    #MU_c       = scalar or (p,) vector, marginal utility of consumption
+    #             or vector of marginal utilities of consumption
+    #p          = integer >= 1, number of periods remaining in lifetime
+    #cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
+
+    #FILES CREATED BY THIS FUNCTION:
+    #    MU_c_stitched.png
+
+    #RETURNS: f_c
+    #--------------------------------------------------------------------
+    ###
+    c_epsilon = 1e-5
+    if c > c_epsilon
+        f_c = c .* (1 - gamma)
+    elseif c <= c_epsilon
+        b2 = (1 - gamma) * (c_epsilon .* (-gamma))
+        b1 = (c_epsilon .* (-gamma)) - b2 * c_epsilon
+        f_c = b2 * c + b1
+    end
+    # print('c=', c, ', MUc=', MUc)
+    return f_c
+end
+
+# @numba.jit(forceobj=True)
+#he does that for paralellisation purposes
+
+function LN_pdf(xvals, mu, sigma)
+    ###
+    #--------------------------------------------------------------------
+    #This function gives the PDF of the lognormal distribution for xvals
+    #given mu and sigma
+
+    #(LN): f(x; mu, sigma) = (1 / (x * sigma * sqrt(2 * pi))) *
+    #        exp((-1 / 2) * (((log(x) - mu) / sigma) ** 2))
+    #        x in [0, infty), mu in (-infty, infty), sigma > 0
+    #--------------------------------------------------------------------
+    #INPUTS:
+    #xvals = (N,) vector, data
+    #mu    = scalar, mean of the ln(x)
+    #sigma = scalar > 0, standard deviation of ln(x)
+
+    #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
+
+    #OBJECTS CREATED WITHIN FUNCTION:
+    #pdf_vals        = (N,) vector, probability of each observation given
+    #                  the parameter values
+
+    #FILES CREATED BY THIS FUNCTION: None
+
+    #RETURNS: pdf_vals
+    #--------------------------------------------------------------------
+    ###
+    pdf_vals = Array{Float64}(((1 / (sqrt(2 * π) * sigma * xvals)) *
+                    exp((-1.0 / 2.0) * (((log.(xvals) - mu) / sigma) .* 2))))
+
+    return pdf_vals
+end
+
+#@numba.jit(forceobj=True) 
+# same here
+
+function get_1pr_MU_c2_pdf(Atp1, x...)
+    ###
+    #This function is the target for calculating the integral
+    #(expectation): E[(1+r_{tp1})*(c_{2,t+1})**(-gamma)]. This function
+    #returns the value of
+    #(1 + r_{tp1})*((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
+    #for a given value of A and k2tp1
+    ###
+    (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau,
+     Hbar, x1, c_min, K_min, gamma, sigma) = x
+    ztp1 = log.(Atp1)
+    z_mu = rho * zt + (1 - rho) * mu
+    c2_args = (nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min)
+    c2tp1 = get_c2t(k2tp1, ztp1, c2_args)
+    r_args = (nvec, epsilon, alpha, delta)
+    rtp1 = get_r(k2tp1, ztp1, r_args)
+    MU_CRRA_c2tp1 = get_MUc_CRRA(c2tp1, gamma)
+    MU_c2tp1_pdf = ((1 + rtp1) * MU_CRRA_c2tp1 *
+                    (LN_pdf(Atp1, z_mu, sigma) / (1 - A_min_cdf)))
+    return MU_c2tp1_pdf
+end
+
