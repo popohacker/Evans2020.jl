@@ -373,3 +373,83 @@ function get_1pr_MU_c2_pdf(Atp1, x...)
     return MU_c2tp1_pdf
 end
 
+
+#@numba.jit(forceobj=True)
+
+function get_MU_c2_pdf(Atp1, x...)
+    ###
+    #This function is the target for calculating the integral
+    #(expectation): E[(c_{2,t+1})**(-gamma)]. This function returns the
+    #value of ((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
+    #for a given value of A and k2tp1
+    #'''
+    (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau,
+    Hbar, x1, c_min, K_min, gamma, sigma) = x
+    ztp1 = log.(Atp1)
+    z_mu = rho * zt + (1 - rho) * mu
+    c2_args = (nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min)
+    c2tp1 = get_c2t(k2tp1, ztp1, c2_args)
+    MU_CRRA_c2tp1 = get_MUc_CRRA(c2tp1, gamma)
+    MU_c2tp1_pdf = (MU_CRRA_c2tp1 *
+                    (LN_pdf(Atp1, z_mu, sigma) / (1 - A_min_cdf)))
+
+    return MU_c2tp1_pdf
+end
+
+#@numba.jit(forceobj=True)
+
+function get_c2tp1_1mgam_pdf(Atp1, x...)
+    ###
+    #This function is the target for calculating the integral
+    #(expectation): E[(c_{2,t+1})**(1-gamma)]. This function returns the
+    #value of ((c_{2,t+1})**(1-gamma)) * pdf(A|mu,sigma)
+    #for a given value of A and k2tp1
+    ###
+    (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau,
+    Hbar, x1, c_min, K_min, gamma, sigma) = x
+   ztp1 = log.(Atp1)
+   z_mu = rho * zt + (1 - rho) * mu
+   c2_args = (nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min)
+   c2tp1 = get_c2t(k2tp1, ztp1, c2_args)
+   c2tp1_1mgam = get_c1mgam(c2tp1, gamma)
+   c2tp1_1mgam_pdf = (c2tp1_1mgam *
+                      (LN_pdf(Atp1, z_mu, sigma) / (1 - A_min_cdf)))
+
+   return c2tp1_1mgam_pdf
+end
+
+using QuadGK
+
+function get_ExpMU_c2_b(k2pt1, zt, args)
+    (k2tp1, zt, A_min, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau,
+     Hbar, x1, c_min, K_min, gamma, sigma) = args
+     Ex_args = (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha,
+     delta, tau, Hbar, x1, c_min, K_min, gamma, sigma)
+    (Exp_MU_CRRA_c2, _) = quadgk(Ex_args -> get_MU_c2_pdf(Ex_args), A_min, Inf)
+    (Exp_c2_1mgam, _) = quandgk(Ex_args -> get_c2tp1_1mgam_pdf(Ex_args), A_min, Inf)
+    MU = Exp_MU_CRRA_c2 / Exp_c2_1mgam
+return MU
+end
+
+function get_Eul_err(k2tp1, x...)
+    (k2t, zt, Ht, nvec, epsilon, beta, alpha, delta, x1, rho, mu, sigma,
+     A_min, tau, Hbar, c_min, K_min, gamma, sigma) = x 
+    n1 = nvec[1]
+    w_args = (nvec, epsilon, alpha)
+    wt = get_w(k2t, zt, w_args)
+    c1 = wt * n1 + x1 - k2tp1 - Ht
+    MU_c1 = get_MUc_CRRA(c1, 1.0)
+    mu_ztp1 = rho * zt + (1 - rho) * mu
+    if A_min == 0.0
+        A_min_cdf = 0.0
+    elseif A_min > 0.0
+        A_min_cdf = cdf.(Normal(mu_ztp1, sigma), log(A_min))
+    end
+    MU_args = (A_min, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta,
+    tau, Hbar, x1, c_min, K_min, gamma, sigma)
+    Exp_MU_ctp1 = get_ExpMU_c2tp1_k(k2tp1, zt, MU_args)
+    Eul_err = MU_c1 - (beta / (1 - beta)) * Exp_MU_ctp1
+    return Eul_err
+end
+
+
