@@ -122,9 +122,9 @@ Hbar_vec[2] = 0.05 * kbar2_mat[1, 1] # 1.0786
 
 # Calibrate x_1 array for different values of x1, given calibration
 x1_arr = zeros(avg_rtp1_size, avg_rbart_size, 3)
-x1_arr[:, :, 1] = x1_mat
-x1_arr[:, :, 2] = 0.5 * x1_mat
-x1_arr[:, :, 3] = 0.0 * x1_mat #ATTENTION, petit doute sur si le résultat correspond, la présentation des matrices est différentes
+x1_arr[:, 1, :] = x1_mat
+x1_arr[:, 2, :] = 0.5 * x1_mat
+x1_arr[:, 3, :] = 0.0 * x1_mat #ATTENTION, petit doute sur si le résultat correspond, la présentation des matrices est différentes
 
 # Calibrate sigma vector of 5% and 10% increases
 sigma_vec = zeros(3)
@@ -138,9 +138,9 @@ sigma_vec[3] = 1.10 * sigma
 # log(ExpA) = mu .+ (sig^2) / 2
 ExpA = mu_mat .+ (sigma ^ 2) / 2
 mu_arr = zeros(avg_rtp1_size, avg_rbart_size, 3)
-mu_arr[:, :, 1] = mu_mat
-mu_arr[:, :, 2] = mu_mat
-mu_arr[:, :, 3] = mu_mat
+mu_arr[:, 1, :] = mu_mat
+mu_arr[:, 2, :] = mu_mat
+mu_arr[:, 3, :] = mu_mat
 # mu_arr[:, :, 2] = ExpA .- (sigma_vec[2] ^ 2) / 2
 # mu_arr[:, :, 3] = ExpA .- (sigma_vec[3] ^ 2) / 2
 
