@@ -121,10 +121,11 @@ Hbar_vec[2] = 0.05 * kbar2_mat[1, 1] # 1.0786
 # print("Hbar_vec = ", Hbar_vec)
 
 # Calibrate x_1 array for different values of x1, given calibration
+x1_mat = transpose(x1_mat)
 x1_arr = zeros(avg_rtp1_size, avg_rbart_size, 3)
-x1_arr[:, :, 1] = x1_mat
-x1_arr[:, :, 2] = 0.5 * x1_mat
-x1_arr[:, :, 3] = 0.0 * x1_mat #ATTENTION, petit doute sur si le résultat correspond, la présentation des matrices est différentes
+x1_arr[:, 1, :] = x1_mat 
+x1_arr[:, 2, :] = 0.5 .* x1_mat
+x1_arr[:, 3, :] = 0.0 .* x1_mat 
 
 # Calibrate sigma vector of 5% and 10% increases
 sigma_vec = zeros(3)
@@ -137,10 +138,11 @@ sigma_vec[3] = 1.10 * sigma
 # the TFP shock, then ExpA = exp(mu .+ (sig^2) / 2), then
 # log(ExpA) = mu .+ (sig^2) / 2
 ExpA = mu_mat .+ (sigma ^ 2) / 2
+mu_mat = transpose(mu_mat)
 mu_arr = zeros(avg_rtp1_size, avg_rbart_size, 3)
-mu_arr[:, :, 1] = mu_mat
-mu_arr[:, :, 2] = mu_mat
-mu_arr[:, :, 3] = mu_mat
+mu_arr[:, 1, :] = mu_mat
+mu_arr[:, 2, :] = mu_mat
+mu_arr[:, 3, :] = mu_mat
 # mu_arr[:, :, 2] = ExpA .- (sigma_vec[2] ^ 2) / 2
 # mu_arr[:, :, 3] = ExpA .- (sigma_vec[3] ^ 2) / 2
 
@@ -232,11 +234,110 @@ rbart_an_arr = zero(default_arr)
 EulErr_arr = zero(default_arr)
 PathTime_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
 s_ind_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
+#marche pas i cry
 for rtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
     for rbart_ind in range(1, stop=(avg_rbart_size-1), step=1)
     k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 1] .=  kbar2_mat[rtp1_ind, rbart_ind] #je dois encore verifier cette ligne
     end
 end
 #pas encore fait tourner 
+    
+    #big loop de popo
+default_p1 = cat(6,zeros(Bool, (H_ind, risk_type_ind, risk_val_ind, avgrtp1_ind,
+                        avgrbart_ind, S, 1)),
+              default_arr[:, :, :, :, :, :, 1]) #pas fini
+
+zt_arr = zeros(3, avg_rtp1_size, avg_rbart_size, S, T)
+size(zt_arr)
+zt_arr_macro = repeat(reshape(zt_arr,(1, 1, 3, avg_rtp1_size,
+                                       avg_rbart_size, S, T)),
+                       Hbar_size, 2, 1, 1, 1, 1, 1)
+
+Kt_arr = (1 - default_p1) .* k2t_arr
+Y_args = (nvec, epsilon, alpha)
+Yt_arr = (1 - default_p1) .* get_Y(Kt_arr, zt_arr_macro, Y_args)
+Ct_arr = (1 - default_p1) .* get_C(c1t_arr, c2t_arr)
+
+dict_params = Dict(
+        "yrs_in_per" => yrs_in_per,
+        "beta_an" => beta_an,
+        "beta" => beta,
+        "gamma" => gamma,
+        "c_min" => c_min,
+        "K_min" => K_min,
+        "nvec" => nvec,
+        "n1" => nvec[0],
+        "n2" => nvec[1],
+        "alpha" => alpha,
+        "epsilon" => epsilon,
+        "delta_an" => delta_an,
+        "delta" => delta,
+        "rho_an" => rho_an,
+        "rho" => rho,
+        "mu_an" => mu_an,
+        "sigma_an" => sigma_an,
+        "sigma" => sigma,
+        "mu" => mu,
+        "A_min" => A_min,
+        "z_min" => z_min,
+        "Hbar_vec" => Hbar_vec,
+        "Hbar_size" => Hbar_size,
+        "Hbar" => Hbar,
+        "tau" => tau,
+        "T" => T,
+        "S" => S,
+        "rand_seed" => rand_seed,
+        "max_cores" => max_cores,
+        "num_workers" => num_workers,
+        "avg_rtp1_size" => avg_rtp1_size,
+        "avg_rtp1_an_vec" => avg_rtp1_an_vec,
+        "avg_Rtp1_vec" => avg_Rtp1_vec,
+        "avg_rbart_size" => avg_rbart_size,
+        "avg_rbart_an_vec" => avg_rbart_an_vec,
+        "avg_Rbart_vec" => avg_Rbart_vec,
+        "avgRtp1_mat" => avgRtp1_mat,
+        "avgRbart_mat" => avgRbart_mat,
+        "avgRtp1_gt_avgRbart" => avgRtp1_gt_avgRbart,
+        "mu_vec" => mu_vec,
+        "mu_mat" => mu_mat,
+        "mu_arr" => mu_arr,
+        "beta_vec" => beta_vec,
+        "beta_mat" => beta_mat,
+        "gamma_mat" => gamma_mat,
+        "x1_mat" => x1_mat,
+        "x1_arr" => x1_arr,
+        "kbar2_mat" => kbar2_mat,
+        "sigma_vec" => sigma_vec,
+        "ExpA" => ExpA)
+
+    dict_endog = Dict(
+        "unif_mat" => unif_mat,
+                "zt_arr" => zt_arr ,
+                "c1t_arr" =>  c1t_arr,
+                "c2t_arr"=>  c2t_arr,
+                "ut_arr" =>  ut_arr,
+                "Ht_arr" =>  Ht_arr,
+                "wt_arr" =>  wt_arr,
+                "rt_arr" =>  rt_arr,
+                "rbart_arr" =>  rbart_arr,
+                "rbart_an_arr" => rbart_an_arr,
+                "k2t_arr" =>  k2t_arr,
+                "EulErr_arr" =>  EulErr_arr,
+                "PathTime_arr" =>  PathTime_arr,
+                "Kt_arr" => Kt_arr,
+                "Yt_arr"=> Yt_arr,
+                 "Ct_arr" => Ct_arr,
+                "default_arr" =>  default_arr,
+                "s_ind_arr" =>  s_ind_arr,
+                "total_time" => total_time) #pas sure qu on run total time
+
+                #ca
+results_sims = Dict("dict_params" => dict_params, "dict_endog" => dict_endog)
+outputfile = os.path.join(output_dir, "results_sims.pkl") 
+
+#ca g as fe
+pickle.dump(results_sims, open(outputfile, "wb")) #lol wat 
+#pickle.dump(pythonObject, pickleDestination, pickle_protocol=None, *, fix_imports=True)
+    
 
 end #celui de time
