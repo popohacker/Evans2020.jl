@@ -183,7 +183,7 @@ mu_arr[:, 3, :] = mu_mat
 # print(mu_arr[:, :, 3])
 # print(" ")
 
-@time begin 
+#@time begin #à reprendre 
 
 default_arr = zeros(Bool, (Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T))
 
@@ -218,10 +218,7 @@ for sig_ind in range(1, stop=(3-1), step=1)
         end 
     end 
 end 
-                                       
-#fin du code de nao
-#je reprends a ligne 338
-#pas encore fait tourner                        
+                                                             
 c1t_arr = zero(default_arr)
 c2t_arr = zero(default_arr)
 ut_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T - 1)
@@ -234,15 +231,16 @@ rbart_an_arr = zero(default_arr)
 EulErr_arr = zero(default_arr)
 PathTime_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
 s_ind_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
-#marche pas i cry
+
 for rtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
     for rbart_ind in range(1, stop=(avg_rbart_size-1), step=1)
-    k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 1] .=  kbar2_mat[rtp1_ind, rbart_ind] #je dois encore verifier cette ligne
+        k2t_arr = convert.(Float64, k2t_arr)
+        k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 1] .=  kbar2_mat[rtp1_ind, rbart_ind] #à vérifier au vu de ce qu'avait dit Circé la dernière fois mais je pense que c'est bon
+        k2t_arr = round.(k2t_arr)
+        k2t_arr = convert.(Bool, k2t_arr)
     end
 end
-#pas encore fait tourner 
     
-    #big loop de popo
 default_p1 = cat(6,zeros(Bool, (H_ind, risk_type_ind, risk_val_ind, avgrtp1_ind,
                         avgrbart_ind, S, 1)),
               default_arr[:, :, :, :, :, :, 1]) #pas fini
@@ -328,16 +326,15 @@ dict_params = Dict(
                 "Yt_arr"=> Yt_arr,
                  "Ct_arr" => Ct_arr,
                 "default_arr" =>  default_arr,
-                "s_ind_arr" =>  s_ind_arr,
-                "total_time" => total_time) #pas sure qu on run total time
+                "s_ind_arr" =>  s_ind_arr)
+                #"total_time" => total_time) #à reprendre
 
                 #ca
 results_sims = Dict("dict_params" => dict_params, "dict_endog" => dict_endog)
-outputfile = os.path.join(output_dir, "results_sims.pkl") 
+#outputfile = os.path.join(output_dir, "results_sims.pkl") #à reprendre
 
-#ca g as fe
-pickle.dump(results_sims, open(outputfile, "wb")) #lol wat 
+#ca g as fe #à reprendre
+#pickle.dump(results_sims, open(outputfile, "wb")) #lol wat 
 #pickle.dump(pythonObject, pickleDestination, pickle_protocol=None, *, fix_imports=True)
     
-
-end #celui de time
+#end #celui de time
