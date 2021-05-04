@@ -5,7 +5,7 @@ using LinearAlgebra
 # 1 : args python vs julia
 # 2 : np. python ?? is inf... 
 
-function trunc_norm_draws(unif_vals::Array, mu::Float64, sigma::Float64, cut_lb::Any, cut_ub::Any)
+function trunc_norm_draws(unif_vals::Any, mu::Float64, sigma::Float64, cut_lb::Any, cut_ub::Any)
     if cut_lb == nothing && cut_ub == nothing
         cut_ub_cdf = 1.0
         cut_lb_cdf = 0.0
