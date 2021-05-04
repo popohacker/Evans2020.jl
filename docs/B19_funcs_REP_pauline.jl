@@ -450,6 +450,75 @@ function get_Eul_err(k2tp1, x...)
     return Eul_err
 end
 
+using LsqFit
+
+function get_k2tp1(k2t, zt, args)
+    ###
+    #--------------------------------------------------------------------
+    #Solve for k2tp1
+    #c1t + k2tp1 = wt * n1 - tau * w1 * n1
+    #--------------------------------------------------------------------
+    #--------------------------------------------------------------------
+    ###
+    (Hbar, beta, gamma, k20, rho, mu, sigma, x1, nvec, epsilon, alpha,
+     delta, tau, c_min, K_min, A_min, yrs_in_per) = args
+    n1 = nvec[1]
+    krange_tol = 0.01
+    w_args = (nvec, epsilon, alpha)
+    wt = get_w(k2t, zt, w_args)
+    H_args = (tau, Hbar, n1, x1, c_min, K_min)
+    Ht, default = get_Ht(wt, H_args)
+    r_args = (nvec, epsilon, alpha, delta)
+    rt = get_r(k2t, zt, r_args)
+    c2_args = (nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min)
+    c2t = get_c2t(k2t, zt, c2_args)
+    # Compute A_min_cdf
+    mu_ztp1 = rho * zt + (1 - rho) * mu
+    if A_min == 0.0
+        A_min_cdf = 0.0
+    elseif A_min > 0.0
+        A_min_cdf = cdf.(Normal(mu_ztp1, sigma), log(A_min))
+    end
+    if default == true
+        print("Default: Ht < Hbar ==> wt * n1 + x1 - c_min - K_min < Hbar")
+        k2tp1 = K_min
+        c1t = c_min
+        MU_c1 = get_MUc_CRRA(c1t, 1.0)
+        Eul_err = 0.0
+    elseif default == false
+        # wt * n1 + x1 - c_min - K_min >= Hbar
+        # Compute k2tp1_max
+        k2tp1_max = wt * n1 + x1 - c_min - Ht
+        if (k2tp1_max - K_min) < krange_tol && (k2tp1_max - K_min) >= 0.0
+            print("Too small maximization range: k2tp1_max - K_min too small.")
+            k2tp1 = 0.5 * K_min + 0.5 * k2tp1_max
+            c1t = wt * n1 + x1 - k2tp1 - Ht
+            MU_c1 = get_MUc_CRRA(c1t, 1.0)
+            eul_args = (k2t, zt, Ht, nvec, epsilon, beta, alpha, delta,
+                        x1, rho, mu, sigma, A_min, A_min_cdf, tau, Hbar,
+                        c_min, K_min, gamma, sigma)
+            Eul_err = get_Eul_err(k2tp1, eul_args...)
+        elseif (k2tp1_max - K_min) < 0.0
+            print("ERROR MSG : Problem in get_k2tp1() : k2tp1_max - K_min <= 0.")
+        elseif (k2tp1_max - K_min) >= krange_tol
+            k2_init = 0.5 * k2tp1_max + 0.5 * K_min
+            eul_args = (k2t, zt, Ht, nvec, epsilon, beta, alpha, delta,
+                        x1, rho, mu, sigma, A_min, tau, Hbar, c_min,
+                        K_min, gamma, sigma)
+            # print('K_min=', K_min, ', k2tp1_max=', k2tp1_max)
+            results = LsqFit.LsqFitResult(LsqFit.lmfit(eul_args -> get_Eul_err(eul_args), k2_init))
+            # k2tp1 = results.root
+            # results = opt.minimize_scalar(get_neg_lf_util,
+            #                               bounds=(K_min, k2tp1_max),
+            #                               method='bounded', args=k_args)
+            # k2tp1 = results.root
+            k2tp1 = results[] #on doit obetnir les valeurs de x qui minimisent la fonction
+            c1t = wt*n1 + x1 - k2tp1 - Ht
+            Eul_err = results[1] #on doit obtenir la valeur minimum
+####PAS SURE DU tOUT
+			
+			
+
 function sim_timepath(
     Hbar, beta, gamma, k20, sigma, x1, T, z0, z_min, rho, mu, nvec,
     epsilon, alpha, delta, tau, c_min, K_min, A_min, yrs_in_per,
