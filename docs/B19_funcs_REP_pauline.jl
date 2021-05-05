@@ -118,10 +118,11 @@ function get_Hbar_err(zt, args...)
 end
 
 using Roots
+using SymEngine
 
 function get_zstar(k2t, ztm1, args)
     mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
-    mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
+    #mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
     z_init = 1.5 * mu
     z_mu = rho * ztm1 + (1 - rho) * mu
     zst_args = (k2t, nvec, epsilon, alpha, Hbar, x1, c_min, K_min)
@@ -131,7 +132,7 @@ function get_zstar(k2t, ztm1, args)
     eps_star = z_star - rho * ztm1 - (1 - rho) * mu
     A_star = exp.(z_star)
     prob_shut = cdf.(Normal(z_mu, sigma), z_star)
-    if results.convergence_failed = true 
+    if results.convergence_failed 
         err_msg = ("zstar ERROR: Root finder did not solve in" +
         "get_zstar().")
         print("z_star = $z_star")
@@ -167,7 +168,7 @@ using SymEngine
 
 function get_zstar(k2t, ztm1, args)
     mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
-    mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
+   # mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
     z_init = 1.5 * mu
     z_mu = rho * ztm1 + (1 - rho) * mu
     zst_args = (k2t, nvec, epsilon, alpha, Hbar, x1, c_min, K_min)
@@ -177,7 +178,7 @@ function get_zstar(k2t, ztm1, args)
     eps_star = z_star - rho * ztm1 - (1 - rho) * mu
     A_star = exp.(z_star)
     prob_shut = cdf.(Normal(z_mu, sigma), z_star)
-    if results.convergence_failed == true 
+    if results.convergence_failed 
         err_msg = ("zstar ERROR: Root finder did not solve in ... get_zstar().")
         print("z_star = $z_star")
         print("Hbar_err = $(get_Hbar_err[1])")
@@ -233,7 +234,7 @@ function get_MUc_CRRA(c, gamma)
     #b1         = scalar, intercept value in linear marginal utility
     #b2         = scalar, slope coefficient in linear marginal utility
     #MU_c       = scalar or (p,) vector, marginal utility of consumption
-                 or vector of marginal utilities of consumption
+    #             or vector of marginal utilities of consumption
     #p          = integer >= 1, number of periods remaining in lifetime
     #cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
 
@@ -450,6 +451,7 @@ function get_Eul_err(k2tp1, x...)
     return Eul_err
 end
 
+#=
 using LsqFit
 
 function get_k2tp1(k2t, zt, args)
@@ -623,3 +625,4 @@ function sim_timepath(
             c2t_vec, ut_vec, Ht_vec, wt_vec, rt_vec, k2t_vec, rbart_vec,
             rbart_an_vec, EulErr_vec, elapsed_time)
 end 
+=#
