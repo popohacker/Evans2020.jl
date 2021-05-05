@@ -335,6 +335,8 @@ results_sims = Dict("dict_params" => dict_params, "dict_endog" => dict_endog)
 
 #ca g as fe #à reprendre
 #pickle.dump(results_sims, open(outputfile, "wb")) #lol wat 
-#pickle.dump(pythonObject, pickleDestination, pickle_protocol=None, *, fix_imports=True)
+#pickle.dump(pythonObject, pickleDestination, pickle_protocol=None, *, fix_imports=True) #j'ai pas cette ligne moi sur mon fichier python
+
+save("results_sims.jld", "results_sims", results_sims)
     
 #end #celui de time
