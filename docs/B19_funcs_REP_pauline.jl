@@ -1,5 +1,8 @@
 using Distributions
 using LinearAlgebra
+using Roots
+using SymEngine
+using QuadGK
 
 #questions 
 # 1 : args python vs julia
@@ -117,9 +120,6 @@ function get_Hbar_err(zt, args...)
     return Hbar_err
 end
 
-using Roots
-using SymEngine
-
 function get_zstar(k2t, ztm1, args)
     mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
     #mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
@@ -161,10 +161,6 @@ function get_Hbar_err(zt, x...)
     return Hbar_err
 end
 
-
-
-using Roots
-using SymEngine
 
 function get_zstar(k2t, ztm1, args)
     mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
@@ -417,7 +413,6 @@ function get_c2tp1_1mgam_pdf(Atp1, x...)
    return c2tp1_1mgam_pdf
 end
 
-using QuadGK
 
 function get_ExpMU_c2_b(k2pt1, zt, args)
     (k2tp1, zt, A_min, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau,
@@ -451,8 +446,6 @@ function get_Eul_err(k2tp1, x...)
     return Eul_err
 end
 
-#=
-using LsqFit
 
 function get_k2tp1(k2t, zt, args)
     ###
@@ -508,19 +501,21 @@ function get_k2tp1(k2t, zt, args)
                         x1, rho, mu, sigma, A_min, tau, Hbar, c_min,
                         K_min, gamma, sigma)
             # print('K_min=', K_min, ', k2tp1_max=', k2tp1_max)
-            results = LsqFit.LsqFitResult(LsqFit.lmfit(eul_args -> get_Eul_err(eul_args), k2_init))
+            results = find_zero((eul_args -> get_Eul_err(eul_args)), k2_init)
             # k2tp1 = results.root
             # results = opt.minimize_scalar(get_neg_lf_util,
             #                               bounds=(K_min, k2tp1_max),
             #                               method='bounded', args=k_args)
             # k2tp1 = results.root
-            k2tp1 = results[] #on doit obetnir les valeurs de x qui minimisent la fonction
+            k2tp1 = results #on doit obtenir les valeurs de x qui minimisent la fonction
             c1t = wt*n1 + x1 - k2tp1 - Ht
-            Eul_err = results[1] #on doit obtenir la valeur minimum
+            Eul_err = get_Eul_err(results) #on doit obtenir la valeur minimum
+        end 
+    end 
+end 
 ####PAS SURE DU tOUT
 			
-			
-
+		
 function sim_timepath(
     Hbar, beta, gamma, k20, sigma, x1, T, z0, z_min, rho, mu, nvec,
     epsilon, alpha, delta, tau, c_min, K_min, A_min, yrs_in_per,
@@ -625,4 +620,3 @@ function sim_timepath(
             c2t_vec, ut_vec, Ht_vec, wt_vec, rt_vec, k2t_vec, rbart_vec,
             rbart_an_vec, EulErr_vec, elapsed_time)
 end 
-=#
