@@ -194,6 +194,11 @@ unif_mat = rand(Uniform(0, 1), (S, T)) #pas parfaitement sûre
 
 # First three dimensions of zt_arr correspond to mu_arr in different order
 zt_arr = zeros(3, avg_rtp1_size, avg_rbart_size, S, T)
+cut_lb = 0
+eps_t = 0
+z_t = 0
+z_tm1 = 0
+
 for sig_ind in range(1, stop=(3-1), step=1)
     sigma = sigma_vec[sig_ind]
     for avgrtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
@@ -206,20 +211,23 @@ for sig_ind in range(1, stop=(3-1), step=1)
                         cut_lb = z_min - mu
                         eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb) #plus besoin de mettre funcs devant
                         z_t = mu + eps_t
-                    elseif ((t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]) #j'ai gardé les deux parenthèses comme sur le fichier Python mais je suis pas sûre de pourquoi il fait ça
-                        z_tm1 = zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind - 1]
+                    elseif (t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]
+                        z_tm1 = zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind - 1] ## REGARDER SI ON BOUGE T_IND - 1 EN PREMIERE PLACE SI ÇA FONCTIONNE
                         cut_lb = z_min - rho * z_tm1 - (1 - rho) * mu
                         eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
                         z_t = rho * z_tm1 + (1 - rho) * mu .+ eps_t 
                     else
                         z_t = NaN
-                        zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind] = z_t
-                    end 
+                    end
+                zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind] = z_t  
                 end 
             end 
         end 
     end 
 end 
+
+##### ON CHECK JUSQU'ICI
+##### VÉRIFIER L'INDEXATION DANS LA LOOP 
                                                              
 c1t_arr = zero(default_arr)
 c2t_arr = zero(default_arr)
