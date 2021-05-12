@@ -290,11 +290,9 @@ for H_ind in 1:Hbar_size
                         for s_ind in 1:S
                             z0_in = z0_vec_in[s_ind]
                             if risk_type_ind == 1
-                                zt_vec_in = zt_arr[1, avgrtp1_ind, avgrbart_ind,
-                                           s_ind, :]
+                                zt_vec_in = zt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, 1]
                             elseif risk_type_ind == 2
-                                zt_vec_in = zt_arr[risk_type_ind, avgrtp1_ind,
-                                           avgrbart_ind, s_ind, :]
+                                zt_vec_in = zt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_type_ind,]
                             end
                             timepaths_s = sim_timepath(
                                 Hbar_in, beta_in, gamma_in, k20_in,
@@ -315,74 +313,34 @@ for H_ind in 1:Hbar_size
                         #I did not add this line because if we don't use delayed I think it's not needed 
 
                         for s_ind in 1:S
-                            s_ind_arr[H_ind, risk_type_ind,
-                                      risk_val_ind, avgrtp1_ind,
-                                      avgrbart_ind, s_ind] = simulations[s_ind][6] # original S_ind
-                            default_arr[H_ind, risk_type_ind,
-                                      risk_val_ind, avgrtp1_ind,
-                                      avgrbart_ind, s_ind, :] = simulations[s_ind][8]  # default_vec
-                            c1t_arr[H_ind, risk_type_ind, risk_val_ind,
-                                      avgrtp1_ind, avgrbart_ind, s_ind,
-                                      :] = simulations[s_ind][9]  # c1t_vec
-                            c2t_arr[H_ind, risk_type_ind, risk_val_ind,
-                                      avgrtp1_ind, avgrbart_ind, s_ind,
-                                      :] = simulations[s_ind][10]  # c2t_vec
-                            ut_arr[H_ind, risk_type_ind, risk_val_ind,
-                                     avgrtp1_ind, avgrbart_ind, s_ind,
-                                     :] = simulations[s_ind][11]  # ut_vec
-                            Ht_arr[H_ind, risk_type_ind, risk_val_ind,
-                                     avgrtp1_ind, avgrbart_ind, s_ind,
-                                     :] = simulations[s_ind][12]  # Ht_vec
-                            wt_arr[H_ind, risk_type_ind, risk_val_ind,
-                                     avgrtp1_ind, avgrbart_ind, s_ind,
-                                     :] = simulations[s_ind][13]  # wt_vec
-                            rt_arr[H_ind, risk_type_ind, risk_val_ind,
-                                     avgrtp1_ind, avgrbart_ind, s_ind,
-                                     :] = simulations[s_ind][14]  # rt_vec
-                            k2t_arr[H_ind, risk_type_ind, risk_val_ind,
-                                      avgrtp1_ind, avgrbart_ind, s_ind,
-                                      :] = pop!(simulations[s_ind][15])  # k2t_vec[:-1]
-                            rbart_arr[H_ind, risk_type_ind,
-                                        risk_val_ind, avgrtp1_ind,
-                                        avgrbart_ind, s_ind, :] = simulations[s_ind][16]  # rbart_vec
-                            rbart_an_arr[H_ind, risk_type_ind,
-                                           risk_val_ind, avgrtp1_ind,
-                                           avgrbart_ind, s_ind, :] = simulations[s_ind][17]  # rbart_an_vec
-                            EulErr_arr[H_ind, risk_type_ind,
-                                         risk_val_ind, avgrtp1_ind,
-                                         avgrbart_ind, s_ind, :] = simulations[s_ind][18]  # EulErr_vec
-                            PathTime_arr[H_ind, risk_type_ind,
-                                           risk_val_ind, avgrtp1_ind,
-                                           avgrbart_ind, s_ind] = simulations[s_ind][19]  # path_time
+                            s_ind_arr[avgrbart_ind, s_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][6] # original S_ind
+                            default_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][8]  # default_vec
+                            c1t_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][9]  # c1t_vec
+                            c2t_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][10]  # c2t_vec
+                            ut_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][11]  # ut_vec
+                            Ht_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][12]  # Ht_vec
+                            wt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][13]  # wt_vec
+                            rt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][14]  # rt_vec
+                            k2t_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = pop!(simulations[s_ind][15])  # k2t_vec[:-1]
+                            rbart_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][16]  # rbart_vec
+                            rbart_an_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][17]  # rbart_an_vec
+                            EulErr_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][18]  # EulErr_vec
+                            PathTime_arr[avgrbart_ind, s_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][19]  # path_time
                         end
                     else  # avg_Rtp1 <= avg_rbart
-                        s_ind_arr[H_ind, risk_type_ind, risk_val_ind,
-                        avgrtp1_ind, avgrbart_ind, :] .= NaN 
-                        default_arr[H_ind, risk_type_ind, risk_val_ind,
-                                    avgrtp1_ind, avgrbart_ind, :, :] .= NaN # default_vec
-                        c1t_arr[H_ind, risk_type_ind, risk_val_ind,
-                                avgrtp1_ind, avgrbart_ind, :, :] .= NaN # c1t_vec
-                        c2t_arr[H_ind, risk_type_ind, risk_val_ind,
-                                avgrtp1_ind, avgrbart_ind, :, :] .= NaN # c2t_vec
-                        ut_arr[H_ind, risk_type_ind, risk_val_ind,
-                               avgrtp1_ind, avgrbart_ind, :, :] .= NaN  # ut_vec
-                        Ht_arr[H_ind, risk_type_ind, risk_val_ind,
-                               avgrtp1_ind, avgrbart_ind, :, :] .= NaN  # Ht_vec
-                        wt_arr[H_ind, risk_type_ind, risk_val_ind,
-                               avgrtp1_ind, avgrbart_ind, :, :] .= NaN # wt_vec
-                        rt_arr[H_ind, risk_type_ind, risk_val_ind,
-                               avgrtp1_ind, avgrbart_ind, :, :] .= NaN # rt_vec
-                        k2t_arr[H_ind, risk_type_ind, risk_val_ind,
-                                avgrtp1_ind, avgrbart_ind, :, :] .= NaN # k2t_vec[:-1]
-                        rbart_arr[H_ind, risk_type_ind, risk_val_ind,
-                                  avgrtp1_ind, avgrbart_ind, :, :] .= NaN # rbart_vec
-                        rbart_an_arr[H_ind, risk_type_ind, risk_val_ind,
-                                     avgrtp1_ind, avgrbart_ind, :,
-                                     :] .= NaN  # rbart_an_vec
-                        EulErr_arr[H_ind, risk_type_ind, risk_val_ind,
-                                   avgrtp1_ind, avgrbart_ind, :, :] .= NaN # EulErr_vec
-                        PathTime_arr[H_ind, risk_type_ind, risk_val_ind,
-                                     avgrtp1_ind, avgrbart_ind, :] .= NaN  # path_time
+                        s_ind_arr[avgrbart_ind, :, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN 
+                        default_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # default_vec
+                        c1t_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # c1t_vec
+                        c2t_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # c2t_vec
+                        ut_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN  # ut_vec
+                        Ht_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN  # Ht_vec
+                        wt_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # wt_vec
+                        rt_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # rt_vec
+                        k2t_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # k2t_vec[:-1]
+                        rbart_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # rbart_vec
+                        rbart_an_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN  # rbart_an_vec
+                        EulErr_arr[:, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN # EulErr_vec
+                        PathTime_arr[avgrbart_ind, :, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] .= NaN  # path_time
                     end
                 end
             dict_endog_new = Dict(
@@ -414,6 +372,7 @@ for H_ind in 1:Hbar_size
         end
     end
 end
+
     
 default_p1 = cat(6,zeros(Bool, (H_ind, risk_type_ind, risk_val_ind, avgrtp1_ind,
                         avgrbart_ind, S, 1)),
