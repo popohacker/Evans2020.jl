@@ -124,7 +124,7 @@ Hbar_vec[2] = 0.05 * kbar2_mat[1, 1] # 1.0786
 
 # Calibrate x_1 array for different values of x1, given calibration
 x1_mat = transpose(x1_mat)
-x1_arr = zeros(avg_rtp1_size, avg_rbart_size, 3)
+x1_arr = zeros(3, avg_rtp1_size, avg_rbart_size)
 x1_arr[:, 1, :] = x1_mat 
 x1_arr[:, 2, :] = 0.5 .* x1_mat
 x1_arr[:, 3, :] = 0.0 .* x1_mat 
