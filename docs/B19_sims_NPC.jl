@@ -1,11 +1,10 @@
-# Import packages 
 using Distributions
 using Random
 using HDF5
 using JLD
 #à compléter si besoin
 
-include("B19_funcs_NPC.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia
+include("FUNC_REP_V1.jl") #pour inclure le fichier fonction et que les fonctions soient identifiées par Julia
 
 # Create output directory
 cur_path = string(@__DIR__)
@@ -29,6 +28,7 @@ delta_an = 0.0
 delta = 1 - ((1 - delta_an)^yrs_in_per)
 nvec = Array([1.0, 0.0])
 
+
 # Aggregate shock z parameters
 rho_an = 0.95
 rho = rho_an^yrs_in_per
@@ -51,6 +51,8 @@ elseif A_min >= exp(mu)
     print("Parameter Error: A_min >= e^(mu)")
 end
 
+
+
 # Set government parameters, transfer parameters, and initial values
 Hbar_vec = Array([0.0, 0.05])
 # self.Hbar_vec = Array([0.0, 0.05, 0.11, 0.17])
@@ -58,6 +60,7 @@ Hbar_size = length(Hbar_vec)
 Hbar = Hbar_vec[1]
 tau = nothing
 z0 = mu
+
 
 # Set simulation parameters
 T = 25
@@ -85,6 +88,8 @@ avg_Rtp1_vec = (1 .+ avg_rtp1_an_vec).^yrs_in_per
 avg_rbart_size = 3
 avg_rbart_an_vec = Array(range(-0.02,stop = 0.01, length = avg_rbart_size))
 avg_Rbart_vec = (1 .+ avg_rbart_an_vec).^yrs_in_per
+
+
 
 # print("avg_Rtp1_vec")
 # print(avg_Rtp1_vec)
@@ -124,10 +129,12 @@ Hbar_vec[2] = 0.05 * kbar2_mat[1, 1] # 1.0786
 
 # Calibrate x_1 array for different values of x1, given calibration
 x1_mat = transpose(x1_mat)
-x1_arr = zeros(3, avg_rtp1_size, avg_rbart_size)
+x1_arr = zeros(3, avg_rtp1_size, avg_rbart_size) #### changement
 x1_arr[:, 1, :] = x1_mat 
 x1_arr[:, 2, :] = 0.5 .* x1_mat
 x1_arr[:, 3, :] = 0.0 .* x1_mat 
+
+
 
 # Calibrate sigma vector of 5% and 10% increases
 sigma_vec = zeros(3)
@@ -141,7 +148,7 @@ sigma_vec[3] = 1.10 * sigma
 # log(ExpA) = mu .+ (sig^2) / 2
 ExpA = mu_mat .+ (sigma ^ 2) / 2
 mu_mat = transpose(mu_mat)
-mu_arr = zeros(avg_rtp1_size, avg_rbart_size, 3)
+mu_arr = zeros(3, avg_rtp1_size, avg_rbart_size)
 mu_arr[:, 1, :] = mu_mat
 mu_arr[:, 2, :] = mu_mat
 mu_arr[:, 3, :] = mu_mat
@@ -187,39 +194,41 @@ mu_arr[:, 3, :] = mu_mat
 
 #@time begin #à reprendre 
 
-default_arr = zeros(Bool, (Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T))
+default_arr = zeros(Bool, (S, T, avg_rbart_size, avg_rtp1_size, 3, 2, Hbar_size))
 
 Random.seed!(rand_seed) #pas parfaitement sûre
 unif_mat = rand(Uniform(0, 1), (S, T)) #pas parfaitement sûre
 
 # First three dimensions of zt_arr correspond to mu_arr in different order
-zt_arr = zeros(3, avg_rtp1_size, avg_rbart_size, S, T)
+zt_arr = zeros(S, T, avg_rbart_size, avg_rtp1_size, 3)
+
 cut_lb = 0
 eps_t = 0
 z_t = 0
 z_tm1 = 0
 
-for sig_ind in range(1, stop=(3-1), step=1)
+for sig_ind in range(1, stop=(3), step=1)
     sigma = sigma_vec[sig_ind]
-    for avgrtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
-        for avgrbart_ind in range(1, stop=(avg_rbart_size-1), step=1)
-            mu = mu_arr[avgrtp1_ind, avgrbart_ind, sig_ind]
-            for s_ind in range(1, stop=(S-1), step=1)
-                for t_ind in range(1, stop=(T-1), step=1)
-                    unif = unif_mat[s_ind, t_ind]
-                    if t_ind == 1 && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]
+    for avgrtp1_ind in range(1, stop=(avg_rtp1_size), step=1)
+        for avgrbart_ind in range(1, stop=(avg_rbart_size), step=1)
+            mu = mu_arr[avgrbart_ind, sig_ind, avgrtp1_ind]
+            for s_ind in range(1, stop=(S), step=1)
+                for t_ind in range(1, stop=(T), step=1)
+                    #unif = unif_mat[s_ind, t_ind]
+                    unif = B[s_ind, t_ind]
+                    if t_ind == 1 && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind] == true
                         cut_lb = z_min - mu
                         eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb) #plus besoin de mettre funcs devant
                         z_t = mu + eps_t
-                    elseif (t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind]
-                        z_tm1 = zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind - 1] ## REGARDER SI ON BOUGE T_IND - 1 EN PREMIERE PLACE SI ÇA FONCTIONNE
+                    elseif ((t_ind > 1) && avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind] == true)
+                        z_tm1 = zt_arr[s_ind, t_ind - 1, avgrbart_ind, avgrtp1_ind, sig_ind]
                         cut_lb = z_min - rho * z_tm1 - (1 - rho) * mu
                         eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
                         z_t = rho * z_tm1 + (1 - rho) * mu .+ eps_t 
                     else
                         z_t = NaN
                     end
-                zt_arr[sig_ind, avgrtp1_ind, avgrbart_ind, s_ind, t_ind] = z_t  
+                zt_arr[s_ind, t_ind, avgrbart_ind,  avgrtp1_ind, sig_ind] = z_t  
                 end 
             end 
         end 
@@ -227,7 +236,7 @@ for sig_ind in range(1, stop=(3-1), step=1)
 end 
 
 ##### ON CHECK JUSQU'ICI
-##### VÉRIFIER L'INDEXATION DANS LA LOOP 
+##### TOUT RUN BIEN JUSQU'ICI
                                                              
 c1t_arr = zero(default_arr)
 c2t_arr = zero(default_arr)
