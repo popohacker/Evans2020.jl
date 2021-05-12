@@ -235,12 +235,9 @@ for sig_ind in range(1, stop=(3), step=1)
     end 
 end 
 
-##### ON CHECK JUSQU'ICI
-##### TOUT RUN BIEN JUSQU'ICI
-                                                             
 c1t_arr = zero(default_arr)
 c2t_arr = zero(default_arr)
-ut_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S, T - 1)
+ut_arr = zeros(S, T - 1, avg_rbart_size, avg_rtp1_size, 3, 2, Hbar_size)
 Ht_arr = zero(default_arr)
 wt_arr = zero(default_arr)
 rt_arr = zero(default_arr)
@@ -248,18 +245,24 @@ k2t_arr = zero(default_arr)
 rbart_arr = zero(default_arr)
 rbart_an_arr = zero(default_arr)
 EulErr_arr = zero(default_arr)
-PathTime_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
-s_ind_arr = zeros(Hbar_size, 2, 3, avg_rtp1_size, avg_rbart_size, S)
+PathTime_arr = zeros(avg_rbart_size, S, avg_rtp1_size, 3, 2, Hbar_size)
+s_ind_arr = zeros(avg_rbart_size, S, avg_rtp1_size, 3, 2, Hbar_size)
 
-for rtp1_ind in range(1, stop=(avg_rtp1_size-1), step=1)
-    for rbart_ind in range(1, stop=(avg_rbart_size-1), step=1)
-        k2t_arr = convert.(Float64, k2t_arr)
-        k2t_arr[:, :, :, rtp1_ind, rbart_ind, :, 1] .=  kbar2_mat[rtp1_ind, rbart_ind] #à vérifier au vu de ce qu'avait dit Circé la dernière fois mais je pense que c'est bon
-        k2t_arr = round.(k2t_arr)
-        k2t_arr = convert.(Bool, k2t_arr)
+for rtp1_ind in range(1, stop=(avg_rtp1_size), step=1) 
+    for rbart_ind in range(1, stop=(avg_rbart_size), step=1) 
+        kbar2_mat2 = (!iszero).(kbar2_mat)
+        k2t_arr[:, 1, rbart_ind, rtp1_ind, :, :, :] .=  kbar2_mat2[rtp1_ind, rbart_ind] #à vérifier au vu de ce qu'avait dit Circé la dernière fois mais je pense que c'est bon
     end
 end
 
+
+mu_in = 0
+sigma_in = 0
+x1_in = 0
+z0_vec_in = 0
+gamma_in = 0
+beta_in = 0
+k20_in = 0
 for H_ind in 1:Hbar_size
     Hbar_in = Hbar_vec[H_ind]
     for risk_type_ind in 1:2 #0=xval, 1=sigval
@@ -274,20 +277,16 @@ for H_ind in 1:Hbar_size
                         if risk_type_ind == 1
                             mu_in = mu_mat[avgrtp1_ind, avgrbart_ind]
                             sigma_in = sigma_vec[1]
-                            x1_in = x1_arr[avgrtp1_ind, avgrbart_ind,
-                                           risk_val_ind]
-                            z0_vec_in = zt_arr[1, avgrtp1_ind,
-                                           avgrbart_ind, :, 1] ##pas sure
+                            x1_in = x1_arr[avgrbart_ind, risk_val_ind, avgrtp1_ind]
+                            z0_vec_in = zt_arr[:, 1, avgrbart_ind, avgrtp1_ind, 1] ##pas sure
                         elseif risk_type_ind == 2 
-                            mu_in = mu_arr[avgrtp1_ind, avgrbart_ind,
-                                           risk_val_ind]
+                            mu_in = mu_arr[avgrbart_ind, risk_val_ind, avgrtp1_ind]
                             sigma_in = sigma_vec[risk_val_ind]
                             x1_in = x1_mat[avgrtp1_ind, avgrbart_ind]
-                            z0_vec_in = zt_arr[risk_val_ind,
-                                               avgrtp1_ind,
-                                               avgrbart_ind, :, 1]## pas sure
+                            z0_vec_in = zt_arr[ :, 1, avgrbart_ind, avgrtp1_ind, risk_val_ind,]## pas sure
                         end
-
+                        ##### WE CHECKED UNTIL HERE
+                        ##### TOUT EST BON JUSQU'ICI
                         for s_ind in 1:S
                             z0_in = z0_vec_in[s_ind]
                             if risk_type_ind == 1
