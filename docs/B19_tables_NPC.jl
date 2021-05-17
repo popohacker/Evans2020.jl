@@ -39,13 +39,16 @@ for H_ind in range(1, stop=2, step=1) #attention, j'ai pris ut_arr pour une vari
         for risk_val_ind in range(1, stop=3, step=1) #ca c bon      
             #filename = string("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2") #pas sure que necessaire
             #print("filename= ", filename) #pas sure que necessaire
-            filename = load("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2")
-            ut_arr = load("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2", "ut_arr") #ca c bon
+            global h = H_ind
+            global r1  =  risk_type_ind  
+            global r2 = risk_val_ind
+            filename = load("dict_endog_$h$r1$r2.jld2")
+            global ut_arr = load("dict_endog_$h$r1$r2.jld2", "ut_arr") #ca c bon
             #run("ut_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)" = ut_arr[$(H_ind),$(risk_type_ind),$(risk_val_ind), :, :, :, :]) #ca ne marchera pas, a modifier, notamment le nom de ce que j'appelle
-            run( @eval $(Symbol("ut_arr_$H_ind$risk_type_ind$risk_val_ind") = ut_arr[H_ind,risk_type_ind,risk_val_ind, :, :, :, :])
+            @eval $(Symbol("ut_arr_$h$r1$r2")) = ut_arr[H_ind,risk_type_ind,risk_val_ind, :, :, :, :]
             print("ut_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)")
-            rbart_an_arr = load("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2", "rbart_an_arr") #ca ca devrait aller
-            run("rbart_an_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)" = rbart_an_arr[$(H_ind),$(risk_type_ind),$(risk_val_ind), :, :, :, :]) #ca ne marchera pas, a modifier            
+            global rbart_an_arr = load("dict_endog_$h$r1$r2.jld2", "rbart_an_arr") #ca ca devrait aller
+            @eval $(Symbol("rbart_an_arr_$h$r1$r2")) = rbart_an_arr[H_ind,risk_type_ind,risk_val_ind, :, :, :, :]) #ca ne marchera pas, a modifier            
         end
      end
 end
