@@ -41,7 +41,8 @@ for H_ind in range(1, stop=2, step=1) #attention, j'ai pris ut_arr pour une vari
             #print("filename= ", filename) #pas sure que necessaire
             filename = load("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2")
             ut_arr = load("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2", "ut_arr") #ca c bon
-            run("ut_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)" = ut_arr[$(H_ind),$(risk_type_ind),$(risk_val_ind), :, :, :, :]) #ca ne marchera pas, a modifier, notamment le nom de ce que j'appelle
+            #run("ut_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)" = ut_arr[$(H_ind),$(risk_type_ind),$(risk_val_ind), :, :, :, :]) #ca ne marchera pas, a modifier, notamment le nom de ce que j'appelle
+            run( @eval $(Symbol("ut_arr_$H_ind$risk_type_ind$risk_val_ind") = ut_arr[H_ind,risk_type_ind,risk_val_ind, :, :, :, :])
             print("ut_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)")
             rbart_an_arr = load("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2", "rbart_an_arr") #ca ca devrait aller
             run("rbart_an_arr_$(H_ind)$(risk_type_ind)$(risk_val_ind)" = rbart_an_arr[$(H_ind),$(risk_type_ind),$(risk_val_ind), :, :, :, :]) #ca ne marchera pas, a modifier            
