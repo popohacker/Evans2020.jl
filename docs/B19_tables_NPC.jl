@@ -1,8 +1,9 @@
 using JLD2
 using FileIO
+using Statistics
 
 #change directory, go to our output directory
-cd("_")
+cd("C:\\Users\\maillet_c\\117321-V1\\code\\e1_mucnst")
 
 # Load pickled results
 cur_dir = string(@__DIR__)
@@ -17,9 +18,8 @@ output_dir = joinpath(cur_dir, "OUTPUT")
 for H_ind in range(1, stop=2, step=1) 
     for risk_type_ind in range(1, stop=2, step=1) 
         for risk_val_ind in range(1, stop=3, step=1)
-            ut_arr = zeros(15, 25, 3, 3, risk_val_ind , risk_type_ind, H_ind)
-            default_arr = zeros(Bool, (15, 25, 3, 3, risk_val_ind , risk_type_ind, H_ind))
-            rbart_an_arr = zero(default_arr)
+            ut_arr = ones(15, 24, 3, 3, risk_val_ind , risk_type_ind, H_ind) #I create an array of one so that in 2nd loop I can divide by its values
+            rbart_an_arr = ones(15, 25, 3, 3, risk_val_ind , risk_type_ind, H_ind)
          save("dict_endog_$(H_ind)$(risk_type_ind)$(risk_val_ind).jld2", Dict("ut_arr" =>  ut_arr,"rbart_an_arr" => rbart_an_arr))
         end
      end
@@ -60,12 +60,12 @@ for risk_type_ind in range(1, stop=2, step=1)
           global b  =  avgrbart_ind 
           eval(Meta.parse("ut_mat_1$r1$r2 = ut_arr_1$r1$r2[ :, :, $b, $t]"))
           eval(Meta.parse("ut_mat_2$r1$r2 = ut_arr_2$r1$r2[ :, :, $b, $t]"))
-          eval(Meta.parse("avg_ut_1$r1$r2 = mean(ut_mat_1$r1$r2[.!isnan(ut_mat_1$r1$r2)])")) #MethodError: no method matching isnan(::Matrix{Float64})
-          #reste a coder les 2 #@eval en dessous et la ligne au-dessus  
-          #@eval $(Symbol("avg_ut_2$r1$r2") = mean("ut_mat_2$r1$r2"[.!isnan(ut_mat_2$r1$r2])) #probablement un pb 
-          #@eval $(Symbol("ut_pctdif_1$r1$r2[b, t]") = "avg_ut_2$r1$r2- avg_ut_1$r1$r2/avg_ut_1$r1$r2"))) #probablement un pb 
-          #print("ut_pctdif_1$r1$r2 for Cobb-Douglas, mu variable") #c bon
-          #print("ut_pctdif_1$r1$r2") #c bon
+          eval(Meta.parse("avg_ut_1$r1$r2 = mean(ut_mat_1$r1$r2[.!isnan.(ut_mat_1$r1$r2)])")) 
+          eval(Meta.parse("avg_ut_2$r1$r2 = mean(ut_mat_2$r1$r2[.!isnan.(ut_mat_2$r1$r2)])")) 
+          eval(Meta.parse("ut_pctdif_1$r1$r2[b, t] = (avg_ut_2$r1$r2 - avg_ut_1$r1$r2)/avg_ut_1$r1$r2")) 
+          println("ut_pctdif_1$r1$r2 for Cobb-Douglas, mu variable")
+          eval(Meta.parse("println(ut_pctdif_1$r1$r2)")) #amelioration possible: ne pas applatir les rows (rows sont displayes les uns a cote des autres)
+          println()
         end
     end
   end
