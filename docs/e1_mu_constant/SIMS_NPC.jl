@@ -399,3 +399,88 @@ for H_ind in 1:Hbar_size
         end
     end
 end
+
+
+default_p1 = default_arr
+default_p1[:, 1, :, :, :, :, :] = zeros(S, 1, 3, 3, 3, 2, 2)
+
+zt_arr_macro = repeat(reshape(zt_arr,(S, T, avg_rbart_size, avg_rtp1_size, 3, 1, 1)), 1, 1, 1, 1, 1, Hbar_size, 2)
+
+Kt_arr = (1 .- default_p1) .* k2t_arr
+Y_args = (nvec, epsilon, alpha)
+Yt_arr = (1 .- default_p1) .* get_Y(Kt_arr, zt_arr_macro, Y_args)
+Ct_arr = (1 .- default_p1) .* get_C(c1t_arr, c2t_arr)
+
+dict_params = Dict(
+        "yrs_in_per" => yrs_in_per,
+        "beta_an" => beta_an,
+        "beta" => beta,
+        "gamma" => gamma,
+        "c_min" => c_min,
+        "K_min" => K_min,
+        "nvec" => nvec,
+        "n1" => nvec[1],
+        "n2" => nvec[2],
+        "alpha" => alpha,
+        "epsilon" => epsilon,
+        "delta_an" => delta_an,
+        "delta" => delta,
+        "rho_an" => rho_an,
+        "rho" => rho,
+        "mu_an" => mu_an,
+        "sigma_an" => sigma_an,
+        "sigma" => sigma,
+        "mu" => mu,
+        "A_min" => A_min,
+        "z_min" => z_min,
+        "Hbar_vec" => Hbar_vec,
+        "Hbar_size" => Hbar_size,
+        "Hbar" => Hbar,
+        "tau" => tau,
+        "T" => T,
+        "S" => S,
+        "rand_seed" => rand_seed,
+        "max_cores" => max_cores,
+        "num_workers" => num_workers,
+        "avg_rtp1_size" => avg_rtp1_size,
+        "avg_rtp1_an_vec" => avg_rtp1_an_vec,
+        "avg_Rtp1_vec" => avg_Rtp1_vec,
+        "avg_rbart_size" => avg_rbart_size,
+        "avg_rbart_an_vec" => avg_rbart_an_vec,
+        "avg_Rbart_vec" => avg_Rbart_vec,
+        "avgRtp1_mat" => avgRtp1_mat,
+        "avgRbart_mat" => avgRbart_mat,
+        "avgRtp1_gt_avgRbart" => avgRtp1_gt_avgRbart,
+        "mu_vec" => mu_vec,
+        "mu_mat" => mu_mat,
+        "mu_arr" => mu_arr,
+        "beta_vec" => beta_vec,
+        "beta_mat" => beta_mat,
+        "gamma_mat" => gamma_mat,
+        "x1_mat" => x1_mat,
+        "x1_arr" => x1_arr,
+        "kbar2_mat" => kbar2_mat,
+        "sigma_vec" => sigma_vec,
+        "ExpA" => ExpA)
+
+dict_endog = Dict(
+        "unif_mat" => unif_mat,
+        "zt_arr" => zt_arr ,
+        "c1t_arr" =>  c1t_arr,
+        "c2t_arr"=>  c2t_arr,
+        "ut_arr" =>  ut_arr,
+        "Ht_arr" =>  Ht_arr,
+        "wt_arr" =>  wt_arr,
+        "rt_arr" =>  rt_arr,
+        "rbart_arr" =>  rbart_arr,
+        "rbart_an_arr" => rbart_an_arr,
+        "k2t_arr" =>  k2t_arr,
+        "EulErr_arr" =>  EulErr_arr,
+        "Kt_arr" => Kt_arr,
+        "Yt_arr"=> Yt_arr,
+        "Ct_arr" => Ct_arr,
+        "default_arr" =>  default_arr,
+        "s_ind_arr" =>  s_ind_arr)
+
+results_sims = Dict("dict_params" => dict_params, "dict_endog" => dict_endog)
+save("results_sims.jld2", results_sims)
