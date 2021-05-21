@@ -249,45 +249,36 @@ end
 """
 `get_MUc_CRRA`
 
---------------------------------------------------------------------
-Generate marginal utility(ies) of consumption with CRRA consumption
-utility and stitched function at lower bound such that the new
-hybrid function is defined over all consumption on the real
-line but the function has similar properties to the Inada condition.
-u'(c) = c ** (-sigma) if c >= epsilon
-     = g'(c) = 2 * b2 * c + b1 if c < epsilon
+	--------------------------------------------------------------------
+	Generate marginal utility(ies) of consumption with CRRA consumption
+	utility and stitched function at lower bound such that the new
+	hybrid function is defined over all consumption on the real
+	line but the function has similar properties to the Inada condition.
+	u'(c) = c ** (-sigma) if c >= epsilon
+     	      = g'(c) = 2 * b2 * c + b1 if c < epsilon
+	such that g'(epsilon) = u'(epsilon) and g''(epsilon) = u''(epsilon)
 
-such that g'(epsilon) = u'(epsilon)
-and g''(epsilon) = u''(epsilon)
+	u(c) = (c ** (1 - sigma) - 1) / (1 - sigma)
+	g(c) = b2 * (c ** 2) + b1 * c + b0
+	--------------------------------------------------------------------
+	INPUTS:
+	c  = scalar, individual consumption in a particular period
+	$\gamma$ = scalar >= 1, coefficient of relative risk aversion for CRRA utility function: $(c^(1-\gamma) - 1) / (1 - \gamma)$
 
-u(c) = (c ** (1 - sigma) - 1) / (1 - sigma)
-g(c) = b2 * (c ** 2) + b1 * c + b0
---------------------------------------------------------------------
-INPUTS:
-c  = scalar, individual consumption in a particular period
-gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
-       utility function: (c**(1-gamma) - 1) / (1 - gamma)
-graph = boolean, =True if want plot of stitched marginal utility of
-        consumption function
+	OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
 
-OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
+	OBJECTS CREATED WITHIN FUNCTION:
+	$\varepsilon$    = scalar > 0, positive value close to zero
+	c_s        = scalar, individual consumption
+	c_s_cnstr  = boolean, =True if c_s < epsilon
+	b1         = scalar, intercept value in linear marginal utility
+	b2         = scalar, slope coefficient in linear marginal utility
+	MU_c       = scalar or (p,) vector, marginal utility of consumption or vector of marginal utilities of consumption
+	p          = integer >= 1, number of periods remaining in lifetime
+	cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
 
-OBJECTS CREATED WITHIN FUNCTION:
-epsilon    = scalar > 0, positive value close to zero
-c_s        = scalar, individual consumption
-c_s_cnstr  = boolean, =True if c_s < epsilon
-b1         = scalar, intercept value in linear marginal utility
-b2         = scalar, slope coefficient in linear marginal utility
-MU_c       = scalar or (p,) vector, marginal utility of consumption
-             or vector of marginal utilities of consumption
-p          = integer >= 1, number of periods remaining in lifetime
-cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
-
-FILES CREATED BY THIS FUNCTION:
-    MU_c_stitched.png
-
-RETURNS: MU_c
---------------------------------------------------------------------
+	RETURNS: MU_c
+	--------------------------------------------------------------------
 """
 function get_MUc_CRRA(c, gamma)
 
@@ -310,46 +301,43 @@ end
 
 `get_c1mgam`
 
-    #--------------------------------------------------------------------
-    #Generate marginal utility(ies) of consumption with CRRA consumption
-    #utility and stitched function at lower bound such that the new
-    #hybrid function is defined over all consumption on the real
-    #line but the function has similar properties to the Inada condition.
+    --------------------------------------------------------------------
+    Generate marginal utility(ies) of consumption with CRRA consumption
+    utility and stitched function at lower bound such that the new
+    hybrid function is defined over all consumption on the real
+    line but the function has similar properties to the Inada condition.
 
-    #f(c) = c ** (1-sigma) if c >= epsilon
-    #g(c) = b2 * c + b1    if c < epsilon
+    $f(c) = c ^(1-\sigma) if c >= \varepsilon$
+    $g(c) = b2 \times c + b1    if c < \varepsilon$
 
-    #    such that g(epsilon) = f(epsilon)
-    #    and g'(epsilon) = f'(epsilon)
+        such that $g(\varepsilon) = f(\varepsilon)$
+        and $g'(\varepsilon) = f'(\varepsilon)$
 
-    #    f(c) = c ** (1 - sigma)
-    #    g(c) = b2 * c + b1
+        $f(c) = c ^ (1 - \sigma)$
+        $g(c) = b2 \times c + b1$
 
-    #    s.t. b2 = (1 - gamma) * (epsilon ** (-gamma))
-    #         b1 = epsilon**(-gamma) - (1-gamma) * (epsilon ** (1-gamma))
-    #--------------------------------------------------------------------
-    #INPUTS:
-    #c  = scalar, individual consumption in a particular period
-    #gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
-    #        utility function: (c**(1-gamma) - 1) / (1 - gamma)
-    #graph = boolean, =True if want plot of stitched marginal utility of
-    #        consumption function
+        s.t. $b2 = (1 - \gamma) \times (\varepsilon ^(- \gamma))$
+             $b1 = \varepsilon^(- \gamma) - (1- \gamma) \times (\varepsilon ^ (1- \gamma))$
+    --------------------------------------------------------------------
+    INPUTS:
+    c  = scalar, individual consumption in a particular period
+    $\gamma$ = scalar >= 1, coefficient of relative risk aversion for CRRA
+            utility function: $(c^(1- \gamma) - 1) / (1 - \gamma)$
 
     #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
 
-    #OBJECTS CREATED WITHIN FUNCTION:
-    #epsilon    = scalar > 0, positive value close to zero
-    #b1         = scalar, intercept value in linear marginal utility
-    #b2         = scalar, slope coefficient in linear marginal utility
-    #MU_c       = scalar or (p,) vector, marginal utility of consumption
-    #             or vector of marginal utilities of consumption
-    #p          = integer >= 1, number of periods remaining in lifetime
-    #cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
+    OBJECTS CREATED WITHIN FUNCTION:
+    $\varepsilon$    = scalar > 0, positive value close to zero
+    b1         = scalar, intercept value in linear marginal utility
+    b2         = scalar, slope coefficient in linear marginal utility
+    MU_c       = scalar or (p,) vector, marginal utility of consumption
+                 or vector of marginal utilities of consumption
+    p          = integer >= 1, number of periods remaining in lifetime
+    cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
 
-    #FILES CREATED BY THIS FUNCTION:
-    #    MU_c_stitched.png
 
-    #RETURNS: f_c
+
+    RETURNS: f_c
     #--------------------------------------------------------------------
 """
 function get_c1mgam(c, gamma)
@@ -370,28 +358,26 @@ end
 """
 LN_pdf
 
-    #--------------------------------------------------------------------
-    #This function gives the PDF of the lognormal distribution for xvals
-    #given mu and sigma
+    --------------------------------------------------------------------
+    This function gives the PDF of the lognormal distribution for xvals
+    given $\mu$ and $\sigma$
 
-    #(LN): f(x; mu, sigma) = (1 / (x * sigma * sqrt(2 * pi))) *
-    #        exp((-1 / 2) * (((log(x) - mu) / sigma) ** 2))
-    #        x in [0, infty), mu in (-infty, infty), sigma > 0
-    #--------------------------------------------------------------------
-    #INPUTS:
-    #xvals = (N,) vector, data
-    #mu    = scalar, mean of the ln(x)
-    #sigma = scalar > 0, standard deviation of ln(x)
+    (LN): $f(x; \mu, \sigma) = (1 / (x \times \sigma \times \sqrt{(2 \times pi)})) \times
+            exp((-1 / 2) \times (((log(x) - \mu) / \sigma)^2))
+            x in [0, \infty), \mu in (- \infty, \infty), \sigma > 0$
+    --------------------------------------------------------------------
+    INPUTS:
+    xvals = (N,) vector, data
+    $\mu$    = scalar, mean of the ln(x)
+    $\sigma$ = scalar > 0, standard deviation of $ln(x)$
 
-    #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
+    OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
 
-    #OBJECTS CREATED WITHIN FUNCTION:
-    #pdf_vals        = (N,) vector, probability of each observation given
-    #                  the parameter values
+    OBJECTS CREATED WITHIN FUNCTION:
+    pdf_vals        = (N,) vector, probability of each observation given
+                      the parameter values
 
-    #FILES CREATED BY THIS FUNCTION: None
-
-    #RETURNS: pdf_vals
+    RETURNS: pdf_vals
     #--------------------------------------------------------------------
 """
 function LN_pdf(xvals, mu, sigma)
@@ -405,11 +391,11 @@ end
 `get_1pr_MU_c2_pdf`
 
 
-    #This function is the target for calculating the integral
-    #(expectation): E[(1+r_{tp1})*(c_{2,t+1})**(-gamma)]. This function
-    #returns the value of
-    #(1 + r_{tp1})*((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
-    #for a given value of A and k2tp1
+    This function is the target for calculating the integral
+    (expectation): $E[(1+r_{tp1})*(c_{2,t+1})**(-gamma)]$. This function
+    returns the value of
+    $(1 + r_{tp1})\times((c_{2,t+1})^(- \gamma)) * pdf(A \| \mu, \sigma)$
+    for a given value of A and k2tp1
 
 """
 function get_1pr_MU_c2_pdf(Atp1, args)
@@ -429,8 +415,8 @@ end
 """
 `get_MU_c2_pdf`
 
-This function is the target for calculating the integral (expectation): E[(c_{2,t+1})^(-gamma)]. 
-This function returns the value of ((c_{2,t+1})^(-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1
+	This function is the target for calculating the integral (expectation): $E[(c_{2,t+1})^(- \gamma)]$. 
+	This function returns the value of $((c_{2,t+1})^(- \gamma)) \times pdf(A \|\mu, \sigma)$ for a given value of A and k2tp1
 """
 function get_MU_c2_pdf(Atp1, args)
 
@@ -447,8 +433,8 @@ end
 """ 
 `get_c2tp1_1mgam_pdf`
 
-This function is the target for calculating the integral (expectation): E[(c_{2,t+1})^(1-gamma)]. 
-This function returns the value of ((c_{2,t+1})^(1-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1
+	This function is the target for calculating the integral (expectation): $E[(c_{2,t+1})^(1- \gamma)]$. 
+	This function returns the value of $((c_{2,t+1})^(1- \gamma)) * pdf(A \| \mu, \sigma)$ for a given value of A and k2tp1
 """
 function get_c2tp1_1mgam_pdf(Atp1, args)
     k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma = args
@@ -514,10 +500,10 @@ end
 """
 get_k2tp1
 
---------------------------------------------------------------------
-Solve for k2tp1
-c1t + k2tp1 = wt * n1 - tau * w1 * n1
---------------------------------------------------------------------
+	--------------------------------------------------------------------
+	Solve for k2tp1
+	c1t + k2tp1 = wt * n1 - tau * w1 * n1
+	--------------------------------------------------------------------
 
 """
 function get_k2tp1(k2t, zt, args)
@@ -613,12 +599,7 @@ end
 
 
 """
-sim_timepath(
-    Hbar, beta, gamma, k20, sigma, x1, T, z0, z_min, rho, mu, nvec,
-    epsilon, alpha, delta, tau, c_min, K_min, A_min, yrs_in_per,
-    H_ind, risk_type_ind, risk_val_ind,
-    avgrtp1_ind, avgrbart_ind, S_ind, zt_vec,
-    rand_seed)
+sim_timepath
 
 Runs the simulation
 
