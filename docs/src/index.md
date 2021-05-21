@@ -1,13 +1,14 @@
 # Replication of "Public Debt, Interest Rates, and Negative Shocks" (Evans, R. 2020) 
 
-> This replication study was part of my evaluation for the course [Numerical Methods](https://floswald.github.io/NumericalMethods/) at SciencesPo Paris in Spring 2021
-
-In this replication study, we do ...
+> This replication study was part of OUR evaluation for the course [Numerical Methods](https://floswald.github.io/NumericalMethods/) at SciencesPo Paris in Spring 2021
+> 
+> The functions used to replicate this paper are:
 
 ```@autodocs
 Modules = [Evans2020]
 ```
 
+## Case number 1 : \epsilon = 1 and \mu is constant
 
 end
 
