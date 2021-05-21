@@ -15,7 +15,8 @@ using LeastSquaresOptim
 
 
 """
-trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
+
+`trunc_norm_draws`(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
 
 
     --------------------------------------------------------------------
@@ -188,7 +189,7 @@ function get_Ht(wt, args)
 end
 
 """
-get_Hbar_err
+`get_Hbar_err
 
     This function is the error function that solves for the current
     period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
@@ -246,7 +247,7 @@ function get_c2t(k2t, zt, args)
 end
 
 """
-get_MUc_CRRA
+`get_MUc_CRRA`
 
 --------------------------------------------------------------------
 Generate marginal utility(ies) of consumption with CRRA consumption
@@ -307,7 +308,8 @@ end
 
 """
 
-get_c1mgam
+`get_c1mgam`
+
     #--------------------------------------------------------------------
     #Generate marginal utility(ies) of consumption with CRRA consumption
     #utility and stitched function at lower bound such that the new
@@ -400,7 +402,7 @@ function LN_pdf(xvals, mu, sigma)
 end
 
 """
-get_1pr_MU_c2_pdf
+`get_1pr_MU_c2_pdf`
 
 
     #This function is the target for calculating the integral
@@ -425,12 +427,10 @@ end
 
 
 """
-get_MU_c2_pdf
+`get_MU_c2_pdf`
 
-    #This function is the target for calculating the integral
-    #(expectation): E[(c_{2,t+1})**(-gamma)]. This function returns the
-    #value of ((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
-    #for a given value of A and k2tp1
+This function is the target for calculating the integral (expectation): E[(c_{2,t+1})^(-gamma)]. 
+This function returns the value of ((c_{2,t+1})^(-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1
 """
 function get_MU_c2_pdf(Atp1, args)
 
@@ -445,12 +445,10 @@ function get_MU_c2_pdf(Atp1, args)
 end
 
 """ 
-get_c2tp1_1mgam_pdf
+`get_c2tp1_1mgam_pdf`
 
-#This function is the target for calculating the integral
-    #(expectation): E[(c_{2,t+1})**(1-gamma)]. This function returns the
-    #value of ((c_{2,t+1})^(1-gamma)) * pdf(A|mu,sigma)
-    #for a given value of A and k2tp1
+This function is the target for calculating the integral (expectation): E[(c_{2,t+1})^(1-gamma)]. 
+This function returns the value of ((c_{2,t+1})^(1-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1
 """
 function get_c2tp1_1mgam_pdf(Atp1, args)
     k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma = args
@@ -464,7 +462,7 @@ function get_c2tp1_1mgam_pdf(Atp1, args)
 end
 
 """
-get_ExpMU_c2tp1_k
+`get_ExpMU_c2tp1_k`
 """
 function get_ExpMU_c2tp1_k(k2tp1, zt, args)
     (A_min, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1,  c_min, K_min, gamma, sigma) = args
@@ -476,7 +474,7 @@ function get_ExpMU_c2tp1_k(k2tp1, zt, args)
 end
 
 """
-get_ExpMU_c2_b
+`get_ExpMU_c2_b`
 """
 function get_ExpMU_c2_b(k2pt1, zt, args)
     (k2tp1, zt, A_min, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau,
@@ -490,7 +488,7 @@ end
 
 
 """
-get_Eul_err
+`get_Eul_err`
 """
 function get_Eul_err(k2tp1, args)
     (k2t, zt, Ht, nvec, epsilon, beta, alpha, delta, x1, rho, mu, sigma, A_min, tau, Hbar, c_min, K_min, gamma, sigma) = args
@@ -516,17 +514,13 @@ end
 """
 get_k2tp1
 
-    #--------------------------------------------------------------------
-    #Solve for k2tp1
-    #c1t + k2tp1 = wt * n1 - tau * w1 * n1
-    #--------------------------------------------------------------------
+--------------------------------------------------------------------
+Solve for k2tp1
+c1t + k2tp1 = wt * n1 - tau * w1 * n1
+--------------------------------------------------------------------
 
 """
 function get_k2tp1(k2t, zt, args)
-    #--------------------------------------------------------------------
-    #Solve for k2tp1
-    #c1t + k2tp1 = wt * n1 - tau * w1 * n1
-    #--------------------------------------------------------------------
 
     (Hbar, beta, gamma, k20, rho, mu, sigma, x1, nvec, epsilon, alpha, delta, tau, c_min, K_min, A_min, yrs_in_per) = args
     n1 = nvec[1]
@@ -626,7 +620,7 @@ sim_timepath(
     avgrtp1_ind, avgrbart_ind, S_ind, zt_vec,
     rand_seed)
 
-Calls the arguments to run the simulation
+Runs the simulation
 
 """
 function sim_timepath(
