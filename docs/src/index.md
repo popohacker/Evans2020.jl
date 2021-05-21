@@ -8,7 +8,7 @@
 Modules = [Evans2020]
 ```
 
-## Case number 1 : \epsilon = 1 and \mu is constant
+## Case number 1 : ee = 1 and \mu is constant
 
 end
 
