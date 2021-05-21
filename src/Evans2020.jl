@@ -16,7 +16,7 @@ using LeastSquaresOptim
 
 """
 trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
-    if cut_lb == nothing && cut_ub == nothing
+
 
     --------------------------------------------------------------------
     Draw (N x S) matrix of random draws from a truncated normal
@@ -99,7 +99,6 @@ trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut
 
     RETURNS: Yt
 """
-
     function get_Y(k2t, zt, args)
          nvec, epsilon, alpha = args
          close_tol = 1e-6
@@ -131,7 +130,6 @@ end
 """
 get_w
 """
-
 function get_w(k2t, zt, args)
     nvec, epsilon, alpha = args
     Lt = sum(nvec)
@@ -151,7 +149,6 @@ end
 """
 get_r
 """
-
 function get_r(k2t, zt, args)
     nvec, epsilon, alpha, delta = args
     Kt = k2t
@@ -172,7 +169,6 @@ end
 """
 get_Ht
 """
-
 function get_Ht(wt, args)
 	tau, Hbar, n1, x1, c_min, K_min = args
     default = false
@@ -198,7 +194,6 @@ get_Hbar_err
     period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
     the minimum shock that does not create default.
 """
-
 function get_Hbar_err(zt, x)
     # This function is the error function that solves for the current
     # period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
@@ -214,7 +209,6 @@ end
 """
 get_zstar
 """
-
 function get_zstar(k2t, ztm1, args)
     mu, rho, nvec, epsilon, alpha, Hbar, x1, c_min, K_min, sigma = args
     z_init = 1.5 * mu
@@ -238,7 +232,6 @@ end
 """
 get_c2t
 """
-
 function get_c2t(k2t, zt, args)
     nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min = args
     n1, n2 = nvec
@@ -295,7 +288,6 @@ FILES CREATED BY THIS FUNCTION:
 RETURNS: MU_c
 --------------------------------------------------------------------
 """
-
 function get_MUc_CRRA(c, gamma)
 
 
@@ -400,7 +392,6 @@ LN_pdf
     #RETURNS: pdf_vals
     #--------------------------------------------------------------------
 """
-
 function LN_pdf(xvals, mu, sigma)
 
     pdf_vals = (((1 / (sqrt(2 * π) * sigma .* xvals)) .*
@@ -419,9 +410,7 @@ get_1pr_MU_c2_pdf
     #for a given value of A and k2tp1
 
 """
-
 function get_1pr_MU_c2_pdf(Atp1, args)
-
     (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma) = args
     ztp1 = log(Atp1)
     z_mu = rho * zt + (1 - rho) * mu
@@ -443,7 +432,6 @@ get_MU_c2_pdf
     #value of ((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
     #for a given value of A and k2tp1
 """
-
 function get_MU_c2_pdf(Atp1, args)
 
     k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma = args
@@ -464,7 +452,6 @@ get_c2tp1_1mgam_pdf
     #value of ((c_{2,t+1})^(1-gamma)) * pdf(A|mu,sigma)
     #for a given value of A and k2tp1
 """
-
 function get_c2tp1_1mgam_pdf(Atp1, args)
     k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma = args
     ztp1 = log.(Atp1)
@@ -479,7 +466,6 @@ end
 """
 get_ExpMU_c2tp1_k
 """
-
 function get_ExpMU_c2tp1_k(k2tp1, zt, args)
     (A_min, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1,  c_min, K_min, gamma, sigma) = args
     Ex_args = (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma)
@@ -536,7 +522,6 @@ get_k2tp1
     #--------------------------------------------------------------------
 
 """
-
 function get_k2tp1(k2t, zt, args)
     #--------------------------------------------------------------------
     #Solve for k2tp1
@@ -644,7 +629,6 @@ sim_timepath(
 Calls the arguments to run the simulation
 
 """
-
 function sim_timepath(
     Hbar, beta, gamma, k20, sigma, x1, T, z0, z_min, rho, mu, nvec,
     epsilon, alpha, delta, tau, c_min, K_min, A_min, yrs_in_per,
