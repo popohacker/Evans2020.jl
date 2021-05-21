@@ -15,17 +15,14 @@ using LeastSquaresOptim
 
 
 """
+`trunc_norm_draws`
 
-`trunc_norm_draws`(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
-
-
-    --------------------------------------------------------------------
     Draw (N x S) matrix of random draws from a truncated normal
     distribution based on a normal distribution with mean mu and
     standard deviation sigma and cutoffs (cut_lb, cut_ub). These draws
     correspond to an (N x S) matrix of randomly generated draws from a
     uniform distribution U(0,1).
-    --------------------------------------------------------------------
+
     INPUTS:
     unif_vals = (N, S) matrix, (N,) vector, or scalar in (0,1), random
                 draws from uniform U(0,1) distribution
@@ -42,10 +39,8 @@ using LeastSquaresOptim
                 given, otherwise is scalar lower bound value of
                 distribution. Values below this cutoff have zero
                 probability
-
     OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION:
         scipy.stats.norm()
-
     OBJECTS CREATED WITHIN FUNCTION:
     cut_ub_cdf  = scalar in [0, 1], cdf of N(mu, sigma) at upper bound
                   cutoff of truncated normal distribution
@@ -57,12 +52,8 @@ using LeastSquaresOptim
                   values drawn from truncated normal PDF with base
                   normal distribution N(mu, sigma) and cutoffs
                   (cut_lb, cut_ub)
-
     FILES CREATED BY THIS FUNCTION: None
-
     RETURNS: tnorm_draws
-    --------------------------------------------------------------------
-
 
 """
     function trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
@@ -89,15 +80,13 @@ using LeastSquaresOptim
 """
     get_Y(k2t, zt, args)
 
-    --------------------------------------------------------------------
     Calculate aggregate output
-    --------------------------------------------------------------------
+
     INPUTS:
     Kt   =
     Lt   =
     zt   =
     args =
-
     RETURNS: Yt
 """
     function get_Y(k2t, zt, args)
@@ -121,7 +110,6 @@ using LeastSquaresOptim
 
 """
 get_C
-
 """
 function get_C(c1t, c2t)
     C = c1t + c2t
@@ -190,7 +178,6 @@ end
 
 """
 `get_Hbar_err`
-
     This function is the error function that solves for the current
     period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
     the minimum shock that does not create default.
@@ -247,38 +234,38 @@ function get_c2t(k2t, zt, args)
 end
 
 """
-`get_MUc_CRRA`
+  `get_MUc_CRRA`
 
-	--------------------------------------------------------------------
 	Generate marginal utility(ies) of consumption with CRRA consumption
 	utility and stitched function at lower bound such that the new
 	hybrid function is defined over all consumption on the real
 	line but the function has similar properties to the Inada condition.
-	u'(c) = c ^ (-sigma) if c >= epsilon
-     	      = g'(c) = 2 * b2 * c + b1 if c < epsilon
-	such that g'(epsilon) = u'(epsilon) and g''(epsilon) = u''(epsilon)
+	u'(c) = c ** (-sigma) if c >= epsilon
+      	      = g'(c) = 2 * b2 * c + b1 if c < epsilon
+	such that g'(epsilon) = u'(epsilon)
+	and g''(epsilon) = u''(epsilon)
+	u(c) = (c ** (1 - sigma) - 1) / (1 - sigma)
+	g(c) = b2 * (c ** 2) + b1 * c + b0
 
-	u(c) = (c ^ (1 - sigma) - 1) / (1 - sigma)
-	g(c) = b2 * (c ^ 2) + b1 * c + b0
-	--------------------------------------------------------------------
 	INPUTS:
 	c  = scalar, individual consumption in a particular period
-	gamma = scalar >= 1, coefficient of relative risk aversion for CRRA utility function: (c^(1-gamma) - 1) / (1 - gamma)
+	gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
+          utility function: (c ^ (1-gamma) - 1) / (1 - gamma)
 
 	OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
-
 	OBJECTS CREATED WITHIN FUNCTION:
-	varepsilon    = scalar > 0, positive value close to zero
+	epsilon    = scalar > 0, positive value close to zero
 	c_s        = scalar, individual consumption
 	c_s_cnstr  = boolean, =True if c_s < epsilon
 	b1         = scalar, intercept value in linear marginal utility
 	b2         = scalar, slope coefficient in linear marginal utility
-	MU_c       = scalar or (p,) vector, marginal utility of consumption or vector of marginal utilities of consumption
+	MU_c       = scalar or (p,) vector, marginal utility of consumption
+             or vector of marginal utilities of consumption
 	p          = integer >= 1, number of periods remaining in lifetime
 	cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
-
+	
 	RETURNS: MU_c
-	--------------------------------------------------------------------
+
 """
 function get_MUc_CRRA(c, gamma)
 
@@ -298,34 +285,27 @@ end
 
 
 """
-
 `get_c1mgam`
 
-    --------------------------------------------------------------------
     Generate marginal utility(ies) of consumption with CRRA consumption
     utility and stitched function at lower bound such that the new
     hybrid function is defined over all consumption on the real
     line but the function has similar properties to the Inada condition.
-
-    f(c) = c ^(1-sigma) if c >= epsilon
+    f(c) = c ** (1-sigma) if c >= epsilon
     g(c) = b2 * c + b1    if c < epsilon
-
         such that g(epsilon) = f(epsilon)
         and g'(epsilon) = f'(epsilon)
-
-        f(c) = c ^ (1 - sigma)
+        f(c) = c ** (1 - sigma)
         g(c) = b2 * c + b1
+        s.t. b2 = (1 - gamma) * (epsilon ** (-gamma))
+             b1 = epsilon**(-gamma) - (1-gamma) * (epsilon ** (1-gamma))
 
-        s.t. b2 = (1 - gamma) * (epsilon ^(- gamma))
-             b1 = epsilon^(- gamma) - (1- gamma) * (epsilon ^ (1- gamma))
-    --------------------------------------------------------------------
     INPUTS:
     c  = scalar, individual consumption in a particular period
     gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
-            utility function: (c^(1- gamma) - 1) / (1 - gamma)
+            utility function: (c**(1-gamma) - 1) / (1 - gamma)
 
-    #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
-
+    OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
     OBJECTS CREATED WITHIN FUNCTION:
     epsilon    = scalar > 0, positive value close to zero
     b1         = scalar, intercept value in linear marginal utility
@@ -335,10 +315,8 @@ end
     p          = integer >= 1, number of periods remaining in lifetime
     cvec_cnstr = (p,) boolean vector, =True for values of cvec < epsilon
 
-
-
     RETURNS: f_c
-    #--------------------------------------------------------------------
+
 """
 function get_c1mgam(c, gamma)
 
@@ -357,28 +335,24 @@ end
 
 """
 LN_pdf
-
-    --------------------------------------------------------------------
+    
     This function gives the PDF of the lognormal distribution for xvals
     given mu and sigma
-
-    (LN): f(x; mu, sigma) = (1 / (x * sigma times sqrt(2 * pi))) *
-            exp((-1 / 2) * (((log(x) - mu) / sigma)^2))
-            x in [0, infty), mu in (- infty, infty), sigma > 0
-    --------------------------------------------------------------------
+    (LN): f(x; mu, sigma) = (1 / (x * sigma * sqrt(2 * pi))) *
+            exp((-1 / 2) * (((log(x) - mu) / sigma) ** 2))
+           x in [0, infty), mu in (-infty, infty), sigma > 0
+    
     INPUTS:
     xvals = (N,) vector, data
     mu    = scalar, mean of the ln(x)
     sigma = scalar > 0, standard deviation of ln(x)
-
     OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
-
     OBJECTS CREATED WITHIN FUNCTION:
     pdf_vals        = (N,) vector, probability of each observation given
                       the parameter values
-
+    FILES CREATED BY THIS FUNCTION: None
     RETURNS: pdf_vals
-    #--------------------------------------------------------------------
+    
 """
 function LN_pdf(xvals, mu, sigma)
 
@@ -389,14 +363,11 @@ end
 
 """
 `get_1pr_MU_c2_pdf`
-
-
     This function is the target for calculating the integral
-    (expectation): `E[(1+r_{tp1})*(c_{2,t+1})^(-gamma)]`. This function
+    (expectation): E[(1+r_{tp1})*(c_{2,t+1})**(-gamma)]. This function
     returns the value of
-    `(1 + r_{tp1})*((c_{2,t+1})^(- gamma)) * pdf(A | mu, sigma)`
+    (1 + r_{tp1})*((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
     for a given value of A and k2tp1
-
 """
 function get_1pr_MU_c2_pdf(Atp1, args)
     (k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma) = args
@@ -414,9 +385,8 @@ end
 
 """
 `get_MU_c2_pdf`
-
-	This function is the target for calculating the integral (expectation): `E[(c_{2,t+1})^(- gamma)]`. 
-	This function returns the value of `((c_{2,t+1})^(- gamma)) * pdf(A | mu, sigma)` for a given value of A and k2tp1
+	This function is the target for calculating the integral (expectation): E[(c_{2,t+1})^(-gamma)]. 
+	This function returns the value of ((c_{2,t+1})^(-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1
 """
 function get_MU_c2_pdf(Atp1, args)
 
@@ -432,9 +402,8 @@ end
 
 """ 
 `get_c2tp1_1mgam_pdf`
-
-	This function is the target for calculating the integral (expectation): `E[(c_{2,t+1})^(1- \gamma)]`. 
-	This function returns the value of `((c_{2,t+1})^(1- gamma)) * pdf(A | mu, sigma)` for a given value of A and k2tp1
+	This function is the target for calculating the integral (expectation): E[(c_{2,t+1})^(1-gamma)]. 
+	This function returns the value of ((c_{2,t+1})^(1-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1
 """
 function get_c2tp1_1mgam_pdf(Atp1, args)
     k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma = args
@@ -500,10 +469,8 @@ end
 """
 get_k2tp1
 
-	--------------------------------------------------------------------
 	Solve for k2tp1
 	c1t + k2tp1 = wt * n1 - tau * w1 * n1
-	--------------------------------------------------------------------
 
 """
 function get_k2tp1(k2t, zt, args)
@@ -599,10 +566,9 @@ end
 
 
 """
-sim_timepath
+sim_timepath 
 
-Runs the simulation
-
+	Runs the simulation
 """
 function sim_timepath(
     Hbar, beta, gamma, k20, sigma, x1, T, z0, z_min, rho, mu, nvec,
