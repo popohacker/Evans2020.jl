@@ -293,7 +293,7 @@ function get_c1mgam(c, gamma)
     #--------------------------------------------------------------------
     c_epsilon = 1e-5
     if c[1] > c_epsilon
-        f_c = c^(1 - gamma)
+        f_c = c.^(1 - gamma)
     elseif c[1] <= c_epsilon
         b2 = (1 - gamma) * (c_epsilon^(-gamma))
         b1 = (c_epsilon^(-gamma)) - b2 * c_epsilon
