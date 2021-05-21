@@ -1,8 +1,8 @@
 # Computational Economics : Final Project 
 
-# Group : Naomi Cohen, Circé Maillet, Pauline Gautrot
+### Group : Naomi Cohen, Circé Maillet, Pauline Gautrot
 
-# Paper : Public Debt, Interest Rates and Negative Shocks (R.W. Evans, 2020)
+### Paper : Public Debt, Interest Rates and Negative Shocks (R.W. Evans, 2020)
 
 
 <!-- [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://popohacker.github.io/Evans2020.jl/stable) -->
