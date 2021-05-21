@@ -189,7 +189,7 @@ function get_Ht(wt, args)
 end
 
 """
-`get_Hbar_err
+`get_Hbar_err`
 
     This function is the error function that solves for the current
     period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
