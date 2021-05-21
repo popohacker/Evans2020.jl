@@ -64,23 +64,24 @@ trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut
 
 
 """
-function trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
-    if cut_lb == nothing && cut_ub == nothing
-        cut_ub_cdf = 1.0
-        cut_lb_cdf = 0.0
-    elseif cut_lb != nothing && cut_ub == nothing
-        cut_ub_cdf = 1.0
-        cut_lb_cdf = cdf.(Normal(mu, sigma),  cut_lb)
-    elseif cut_lb == nothing && cut_ub != nothing
-        cut_ub_cdf = cdf.(Normal(mu, sigma), cut_ub)
-        cut_lb_cdf = 0.0
-    elseif cut_lb != nothing && cut_ub != nothing
-        cut_ub_cdf = cdf.(Normal(mu, sigma), cut_ub)
-        cut_lb_cdf = cdf.(Normal(mu, sigma),  cut_lb)
+    function trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut_ub::Any = nothing)
+        if cut_lb == nothing && cut_ub == nothing
+             cut_ub_cdf = 1.0
+             cut_lb_cdf = 0.0
+        elseif cut_lb != nothing && cut_ub == nothing
+            cut_ub_cdf = 1.0
+            cut_lb_cdf = cdf.(Normal(mu, sigma),  cut_lb)
+        elseif cut_lb == nothing && cut_ub != nothing
+            cut_ub_cdf = cdf.(Normal(mu, sigma), cut_ub)
+            cut_lb_cdf = 0.0
+        elseif cut_lb != nothing && cut_ub != nothing
+            cut_ub_cdf = cdf.(Normal(mu, sigma), cut_ub)
+            cut_lb_cdf = cdf.(Normal(mu, sigma),  cut_lb)
+        end
+        unif2_vals = transpose(reduce(hcat, unif_vals)) .* (cut_ub_cdf - cut_lb_cdf) .+ cut_lb_cdf 
+        tnorm_draws = quantile.(Normal(mu, sigma), unif2_vals)
+        return tnorm_draws
     end
-    unif2_vals = transpose(reduce(hcat, unif_vals)) .* (cut_ub_cdf - cut_lb_cdf) .+ cut_lb_cdf 
-    tnorm_draws = quantile.(Normal(mu, sigma), unif2_vals)
-    return tnorm_draws
 end
 
 
@@ -99,24 +100,26 @@ end
     RETURNS: Yt
 """
 
-function get_Y(k2t, zt, args)
-    nvec, epsilon, alpha = args
-    close_tol = 1e-6
-    Kt = k2t
-    Lt = sum(nvec) 
-    At = exp.(zt)
-    if isapprox(epsilon, 1.0, atol=close_tol) == true
-        Yt = At .* ((Kt).^alpha)*((Lt).^(1- alpha))
-    elseif isinf(epsilon) == true
-        Yt = At .* (alpha .* Kt .+ (1 - alpha) .* Lt)
-    elseif epsilon > 0 & isapprox(epsilon, 1.0, atol=close_tol) == false & isinf(epsilon) == false
-        Yt = At .* (alpha.*(Kt.^((epsilon -1)/epsilon)) + (1-alpha) *(Lt.^((epsilon-1)/epsilon))).^(epsilon/(epsilon-1))
-    elseif epsilon <= 0 
-        err_msg = "ERROR get_Y(): epsilon <=0"
-        print(err_msg)
+    function get_Y(k2t, zt, args)
+         nvec, epsilon, alpha = args
+         close_tol = 1e-6
+         Kt = k2t
+         Lt = sum(nvec) 
+         At = exp.(zt)
+       if isapprox(epsilon, 1.0, atol=close_tol) == true
+             Yt = At .* ((Kt).^alpha)*((Lt).^(1- alpha))
+       elseif isinf(epsilon) == true
+             Yt = At .* (alpha .* Kt .+ (1 - alpha) .* Lt)
+       elseif epsilon > 0 & isapprox(epsilon, 1.0, atol=close_tol) == false & isinf(epsilon) == false
+             Yt = At .* (alpha.*(Kt.^((epsilon -1)/epsilon)) + (1-alpha) *(Lt.^((epsilon-1)/epsilon))).^(epsilon/(epsilon-1))
+       elseif epsilon <= 0 
+              err_msg = "ERROR get_Y(): epsilon <=0"
+             print(err_msg)
+       end
+    return Yt
     end
-return Yt
 end
+
 
 """
 sim_timepath(
@@ -230,6 +233,7 @@ function sim_timepath(
             c2t_vec, ut_vec, Ht_vec, wt_vec, rt_vec, k2t_vec, rbart_vec,
             rbart_an_vec, EulErr_vec]
 end 
+end
 
 
 
