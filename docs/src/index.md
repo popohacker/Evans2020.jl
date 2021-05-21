@@ -1069,7 +1069,7 @@ This simulation give us the following output, once again compared with the origi
 ![Table3](./tables/Table3.png)
 
 
-## Case number 3 : $\varepsilon$ = 1 and $\mu$ is a function of $E[R_{t+1}]
+## Case number 3 : $\varepsilon$ = 1 and $\mu$ is a function of $E[R_{t+1}]$
 
 
 For this case, we have a Cobb-Douglas production function but now the risk parameter $\mu$ is a function of expected interest rates and thus is not constant anymore. 
