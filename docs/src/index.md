@@ -10,6 +10,12 @@ Modules = [Evans2020]
 
 ## Case number 1 : &epsilon; = 1 and &mu; is constant
 
+```julia
+julia> using Evans2020
+
+julia> 
+```
+
 end
 
 
