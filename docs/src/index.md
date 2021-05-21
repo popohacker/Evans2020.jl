@@ -503,6 +503,9 @@ It gives us the following output : (il faudra mettre notre tableau là)
 
 We can compare it with the original outpu from the paper : 
 
+![originaltab1](./fig5uk.png)
+
+
 end
 
 
