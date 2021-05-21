@@ -254,21 +254,21 @@ end
 	utility and stitched function at lower bound such that the new
 	hybrid function is defined over all consumption on the real
 	line but the function has similar properties to the Inada condition.
-	u'(c) = c ** (-sigma) if c >= epsilon
+	u'(c) = c ^ (-sigma) if c >= epsilon
      	      = g'(c) = 2 * b2 * c + b1 if c < epsilon
 	such that g'(epsilon) = u'(epsilon) and g''(epsilon) = u''(epsilon)
 
-	u(c) = (c ** (1 - sigma) - 1) / (1 - sigma)
-	g(c) = b2 * (c ** 2) + b1 * c + b0
+	u(c) = (c ^ (1 - sigma) - 1) / (1 - sigma)
+	g(c) = b2 * (c ^ 2) + b1 * c + b0
 	--------------------------------------------------------------------
 	INPUTS:
 	c  = scalar, individual consumption in a particular period
-	$\gamma$ = scalar >= 1, coefficient of relative risk aversion for CRRA utility function: $(c^(1-\gamma) - 1) / (1 - \gamma)$
+	gamma = scalar >= 1, coefficient of relative risk aversion for CRRA utility function: (c^(1-gamma) - 1) / (1 - gamma)
 
 	OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
 
 	OBJECTS CREATED WITHIN FUNCTION:
-	$\varepsilon$    = scalar > 0, positive value close to zero
+	varepsilon    = scalar > 0, positive value close to zero
 	c_s        = scalar, individual consumption
 	c_s_cnstr  = boolean, =True if c_s < epsilon
 	b1         = scalar, intercept value in linear marginal utility
@@ -307,27 +307,27 @@ end
     hybrid function is defined over all consumption on the real
     line but the function has similar properties to the Inada condition.
 
-    $f(c) = c ^(1-\sigma) if c >= \varepsilon$
-    $g(c) = b2 \times c + b1    if c < \varepsilon$
+    f(c) = c ^(1-sigma) if c >= epsilon
+    g(c) = b2 * c + b1    if c < epsilon
 
-        such that $g(\varepsilon) = f(\varepsilon)$
-        and $g'(\varepsilon) = f'(\varepsilon)$
+        such that g(epsilon) = f(epsilon)
+        and g'(epsilon) = f'(epsilon)
 
-        $f(c) = c ^ (1 - \sigma)$
-        $g(c) = b2 \times c + b1$
+        f(c) = c ^ (1 - sigma)
+        g(c) = b2 * c + b1
 
-        s.t. $b2 = (1 - \gamma) \times (\varepsilon ^(- \gamma))$
-             $b1 = \varepsilon^(- \gamma) - (1- \gamma) \times (\varepsilon ^ (1- \gamma))$
+        s.t. b2 = (1 - gamma) * (epsilon ^(- gamma))
+             b1 = epsilon^(- gamma) - (1- gamma) * (epsilon ^ (1- gamma))
     --------------------------------------------------------------------
     INPUTS:
     c  = scalar, individual consumption in a particular period
-    $\gamma$ = scalar >= 1, coefficient of relative risk aversion for CRRA
-            utility function: $(c^(1- \gamma) - 1) / (1 - \gamma)$
+    gamma = scalar >= 1, coefficient of relative risk aversion for CRRA
+            utility function: (c^(1- gamma) - 1) / (1 - gamma)
 
     #OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
 
     OBJECTS CREATED WITHIN FUNCTION:
-    $\varepsilon$    = scalar > 0, positive value close to zero
+    epsilon    = scalar > 0, positive value close to zero
     b1         = scalar, intercept value in linear marginal utility
     b2         = scalar, slope coefficient in linear marginal utility
     MU_c       = scalar or (p,) vector, marginal utility of consumption
@@ -360,16 +360,16 @@ LN_pdf
 
     --------------------------------------------------------------------
     This function gives the PDF of the lognormal distribution for xvals
-    given $\mu$ and $\sigma$
+    given mu and sigma
 
-    (LN): $f(x; \mu, \sigma) = (1 / (x \times \sigma \times \sqrt{(2 \times pi)})) \times
-            exp((-1 / 2) \times (((log(x) - \mu) / \sigma)^2))
-            x in [0, \infty), \mu in (- \infty, \infty), \sigma > 0$
+    (LN): f(x; mu, sigma) = (1 / (x * sigma times sqrt(2 * pi))) *
+            exp((-1 / 2) * (((log(x) - mu) / sigma)^2))
+            x in [0, infty), mu in (- infty, infty), sigma > 0
     --------------------------------------------------------------------
     INPUTS:
     xvals = (N,) vector, data
-    $\mu$    = scalar, mean of the ln(x)
-    $\sigma$ = scalar > 0, standard deviation of $ln(x)$
+    mu    = scalar, mean of the ln(x)
+    sigma = scalar > 0, standard deviation of ln(x)
 
     OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None
 
@@ -392,9 +392,9 @@ end
 
 
     This function is the target for calculating the integral
-    (expectation): $E[(1+r_{tp1})*(c_{2,t+1})**(-gamma)]$. This function
+    (expectation): `E[(1+r_{tp1})*(c_{2,t+1})^(-gamma)]`. This function
     returns the value of
-    $(1 + r_{tp1})\times((c_{2,t+1})^(- \gamma)) * pdf(A \| \mu, \sigma)$
+    `(1 + r_{tp1})*((c_{2,t+1})^(- gamma)) * pdf(A | mu, sigma)`
     for a given value of A and k2tp1
 
 """
@@ -415,8 +415,8 @@ end
 """
 `get_MU_c2_pdf`
 
-	This function is the target for calculating the integral (expectation): $E[(c_{2,t+1})^(- \gamma)]$. 
-	This function returns the value of $((c_{2,t+1})^(- \gamma)) \times pdf(A \|\mu, \sigma)$ for a given value of A and k2tp1
+	This function is the target for calculating the integral (expectation): `E[(c_{2,t+1})^(- gamma)]`. 
+	This function returns the value of `((c_{2,t+1})^(- gamma)) * pdf(A | mu, sigma)` for a given value of A and k2tp1
 """
 function get_MU_c2_pdf(Atp1, args)
 
@@ -433,8 +433,8 @@ end
 """ 
 `get_c2tp1_1mgam_pdf`
 
-	This function is the target for calculating the integral (expectation): $E[(c_{2,t+1})^(1- \gamma)]$. 
-	This function returns the value of $((c_{2,t+1})^(1- \gamma)) * pdf(A \| \mu, \sigma)$ for a given value of A and k2tp1
+	This function is the target for calculating the integral (expectation): `E[(c_{2,t+1})^(1- \gamma)]`. 
+	This function returns the value of `((c_{2,t+1})^(1- gamma)) * pdf(A | mu, sigma)` for a given value of A and k2tp1
 """
 function get_c2tp1_1mgam_pdf(Atp1, args)
     k2tp1, zt, A_min_cdf, rho, mu, nvec, epsilon, alpha, delta, tau, Hbar, x1, c_min, K_min, gamma, sigma = args
