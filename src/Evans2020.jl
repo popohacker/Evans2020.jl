@@ -4,7 +4,6 @@ using FileIO
 using Statistics
 using Distributions
 using Random
-using HDF5
 using LinearAlgebra
 using Roots
 using SymEngine
