@@ -82,7 +82,7 @@ trunc_norm_draws(unif_vals::Any, mu::Any, sigma::Any, cut_lb::Any = nothing, cut
         tnorm_draws = quantile.(Normal(mu, sigma), unif2_vals)
         return tnorm_draws
     end
-end
+
 
 
 """
@@ -118,7 +118,7 @@ end
        end
     return Yt
     end
-end
+
 
 
 """
@@ -233,7 +233,7 @@ function sim_timepath(
             c2t_vec, ut_vec, Ht_vec, wt_vec, rt_vec, k2t_vec, rbart_vec,
             rbart_an_vec, EulErr_vec]
 end 
-end
+
 
 
 
