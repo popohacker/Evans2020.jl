@@ -28,7 +28,6 @@ Calls the arguments to run the simulation
 
 """
 
-
 function sim_timepath(
     Hbar, beta, gamma, k20, sigma, x1, T, z0, z_min, rho, mu, nvec,
     epsilon, alpha, delta, tau, c_min, K_min, A_min, yrs_in_per,
