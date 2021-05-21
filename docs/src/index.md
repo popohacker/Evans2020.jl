@@ -8,9 +8,14 @@
 Modules = [Evans2020]
 ```
 
+\begin{center}
 ## Case number 1 : $\varepsilon$ = 1 and $\mu$ is constant
+\end{center}
 
-### We run the simulation code for this first case using 
+We run a simulation aiming at capturing the effect on realized lifetime utility of a government transer program. We look at the difference between the baseline model when there is no government transer and a model where the transfer is 5 percent of average savings. 
+
+In the case where $\varepsilon$ = 1, we have a Cobb-Douglas productivity function. 
+And $\mu$, which capturates the riskiness of returns $E[R_{t+1}]$, is constant and equal to 1.0786.
 
 ```julia
 julia> using Evans2020
