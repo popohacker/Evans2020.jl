@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020) · Evans2020.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">Evans2020.jl</span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a><ul class="internal"><li><a class="tocitem" href="#Case-number-1-:-\\epsilon-1-and-\\mu-is-constant"><span>Case number 1 : <span>$\epsilon$</span> = 1 and <span>$\mu$</span> is constant</span></a></li><li class="toplevel"><a class="tocitem" href="#Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)"><span>Our Replication of The Cash Paradox (Jiang &amp; Shao, 2019)</span></a></li><li><a class="tocitem" href="#Replication-of-model-predictions:-Figures-5a-5d"><span>Replication of model predictions: Figures 5a-5d</span></a></li><li><a class="tocitem" href="#Replication-of-model-predictions:-Figures-A2a-A2d"><span>Replication of model predictions: Figures A2a-A2d</span></a></li><li><a class="tocitem" href="#Replication-of-regime-changes-over-time:-Figure-A3"><span>Replication of regime changes over time: Figure A3</span></a></li><li><a class="tocitem" href="#Replication-of-The-Value-of-ATM-withdrawals-over-CIC:-Figure-A4"><span>Replication of The Value of ATM withdrawals over CIC: Figure A4</span></a></li><li><a class="tocitem" href="#Replication-of-Cash-receipts-from-circulation-in-the-Federal-Reserve-Banks:-Figure-A5"><span>Replication of Cash receipts from circulation in the Federal Reserve Banks: Figure A5</span></a></li><li><a class="tocitem" href="#Replication-of-Different-measures-of-nominal-interest-rates:-Figure-D1"><span>Replication of Different measures of nominal interest rates: Figure D1</span></a></li><li><a class="tocitem" href="#Replication-of-CIC/GDP-with-different-interest-rate-specifications:-Figure-D2"><span>Replication of CIC/GDP with different interest rate specifications: Figure D2</span></a></li><li><a class="tocitem" href="#Replication-of-Table-1-and-Table-2:-Calibration-results-and-Cash-shares-relative-to-credit"><span>Replication of Table 1 and Table 2: Calibration results and Cash shares relative to credit</span></a></li><li><a class="tocitem" href="#Replication-of-Table-D.1:-Parameter-values-and-Table-D.2:-Model-performance-comparison"><span>Replication of Table D.1: Parameter values and Table D.2: Model performance comparison</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/popohacker/Evans2020.jl/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)"><a class="docs-heading-anchor" href="#Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)">Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a><a id="Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)-1"></a><a class="docs-heading-anchor-permalink" href="#Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)" title="Permalink"></a></h1><blockquote><p>This replication study was part of our evaluation for the course <a href="https://floswald.github.io/NumericalMethods/">Numerical Methods</a> at SciencesPo Paris in Spring 2021</p><p>The functions used to replicate this paper are:</p></blockquote><article class="docstring"><header><a class="docstring-binding" id="Evans2020.LN_pdf-Tuple{Any, Any, Any}" href="#Evans2020.LN_pdf-Tuple{Any, Any, Any}"><code>Evans2020.LN_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p>LN_pdf</p><pre><code class="language-none">#--------------------------------------------------------------------
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020) · Evans2020.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">Evans2020.jl</span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a><ul class="internal"><li><a class="tocitem" href="#Case-number-1-:-\\varepsilon-1-and-\\mu-is-constant"><span>Case number 1 : <span>$\varepsilon$</span> = 1 and <span>$\mu$</span> is constant</span></a></li><li class="toplevel"><a class="tocitem" href="#Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)"><span>Our Replication of The Cash Paradox (Jiang &amp; Shao, 2019)</span></a></li><li><a class="tocitem" href="#Replication-of-model-predictions:-Figures-5a-5d"><span>Replication of model predictions: Figures 5a-5d</span></a></li><li><a class="tocitem" href="#Replication-of-model-predictions:-Figures-A2a-A2d"><span>Replication of model predictions: Figures A2a-A2d</span></a></li><li><a class="tocitem" href="#Replication-of-regime-changes-over-time:-Figure-A3"><span>Replication of regime changes over time: Figure A3</span></a></li><li><a class="tocitem" href="#Replication-of-The-Value-of-ATM-withdrawals-over-CIC:-Figure-A4"><span>Replication of The Value of ATM withdrawals over CIC: Figure A4</span></a></li><li><a class="tocitem" href="#Replication-of-Cash-receipts-from-circulation-in-the-Federal-Reserve-Banks:-Figure-A5"><span>Replication of Cash receipts from circulation in the Federal Reserve Banks: Figure A5</span></a></li><li><a class="tocitem" href="#Replication-of-Different-measures-of-nominal-interest-rates:-Figure-D1"><span>Replication of Different measures of nominal interest rates: Figure D1</span></a></li><li><a class="tocitem" href="#Replication-of-CIC/GDP-with-different-interest-rate-specifications:-Figure-D2"><span>Replication of CIC/GDP with different interest rate specifications: Figure D2</span></a></li><li><a class="tocitem" href="#Replication-of-Table-1-and-Table-2:-Calibration-results-and-Cash-shares-relative-to-credit"><span>Replication of Table 1 and Table 2: Calibration results and Cash shares relative to credit</span></a></li><li><a class="tocitem" href="#Replication-of-Table-D.1:-Parameter-values-and-Table-D.2:-Model-performance-comparison"><span>Replication of Table D.1: Parameter values and Table D.2: Model performance comparison</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/popohacker/Evans2020.jl/blob/master/docs/src/index.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)"><a class="docs-heading-anchor" href="#Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)">Replication of &quot;Public Debt, Interest Rates, and Negative Shocks&quot; (Evans, R. 2020)</a><a id="Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)-1"></a><a class="docs-heading-anchor-permalink" href="#Replication-of-&quot;Public-Debt,-Interest-Rates,-and-Negative-Shocks&quot;-(Evans,-R.-2020)" title="Permalink"></a></h1><blockquote><p>This replication study was part of our evaluation for the course <a href="https://floswald.github.io/NumericalMethods/">Numerical Methods</a> at SciencesPo Paris in Spring 2021</p><p>The functions used to replicate this paper are:</p></blockquote><article class="docstring"><header><a class="docstring-binding" id="Evans2020.LN_pdf-Tuple{Any, Any, Any}" href="#Evans2020.LN_pdf-Tuple{Any, Any, Any}"><code>Evans2020.LN_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p>LN_pdf</p><pre><code class="language-none">#--------------------------------------------------------------------
 #This function gives the PDF of the lognormal distribution for xvals
 #given mu and sigma
 
@@ -21,13 +21,13 @@
 #FILES CREATED BY THIS FUNCTION: None
 
 #RETURNS: pdf_vals
-#--------------------------------------------------------------------</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L370-L396">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_1pr_MU_c2_pdf-Tuple{Any, Any}" href="#Evans2020.get_1pr_MU_c2_pdf-Tuple{Any, Any}"><code>Evans2020.get_1pr_MU_c2_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_1pr_MU_c2_pdf</code></p><pre><code class="language-none">#This function is the target for calculating the integral
+#--------------------------------------------------------------------</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L370-L396">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_1pr_MU_c2_pdf-Tuple{Any, Any}" href="#Evans2020.get_1pr_MU_c2_pdf-Tuple{Any, Any}"><code>Evans2020.get_1pr_MU_c2_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_1pr_MU_c2_pdf</code></p><pre><code class="language-none">#This function is the target for calculating the integral
 #(expectation): E[(1+r_{tp1})*(c_{2,t+1})**(-gamma)]. This function
 #returns the value of
 #(1 + r_{tp1})*((c_{2,t+1})**(-gamma)) * pdf(A|mu,sigma)
-#for a given value of A and k2tp1</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L404-L414">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_C-Tuple{Any, Any}" href="#Evans2020.get_C-Tuple{Any, Any}"><code>Evans2020.get_C</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_C</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L122-L125">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Eul_err-Tuple{Any, Any}" href="#Evans2020.get_Eul_err-Tuple{Any, Any}"><code>Evans2020.get_Eul_err</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_Eul_err</code></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L490-L492">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_ExpMU_c2_b-Tuple{Any, Any, Any}" href="#Evans2020.get_ExpMU_c2_b-Tuple{Any, Any, Any}"><code>Evans2020.get_ExpMU_c2_b</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_ExpMU_c2_b</code></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L476-L478">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_ExpMU_c2tp1_k-Tuple{Any, Any, Any}" href="#Evans2020.get_ExpMU_c2tp1_k-Tuple{Any, Any, Any}"><code>Evans2020.get_ExpMU_c2tp1_k</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_ExpMU_c2tp1_k</code></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L464-L466">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Hbar_err-Tuple{Any, Any}" href="#Evans2020.get_Hbar_err-Tuple{Any, Any}"><code>Evans2020.get_Hbar_err</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_Hbar_err</code></p><pre><code class="language-none">This function is the error function that solves for the current
+#for a given value of A and k2tp1</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L404-L414">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_C-Tuple{Any, Any}" href="#Evans2020.get_C-Tuple{Any, Any}"><code>Evans2020.get_C</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_C</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L122-L125">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Eul_err-Tuple{Any, Any}" href="#Evans2020.get_Eul_err-Tuple{Any, Any}"><code>Evans2020.get_Eul_err</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_Eul_err</code></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L490-L492">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_ExpMU_c2_b-Tuple{Any, Any, Any}" href="#Evans2020.get_ExpMU_c2_b-Tuple{Any, Any, Any}"><code>Evans2020.get_ExpMU_c2_b</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_ExpMU_c2_b</code></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L476-L478">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_ExpMU_c2tp1_k-Tuple{Any, Any, Any}" href="#Evans2020.get_ExpMU_c2tp1_k-Tuple{Any, Any, Any}"><code>Evans2020.get_ExpMU_c2tp1_k</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_ExpMU_c2tp1_k</code></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L464-L466">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Hbar_err-Tuple{Any, Any}" href="#Evans2020.get_Hbar_err-Tuple{Any, Any}"><code>Evans2020.get_Hbar_err</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_Hbar_err</code></p><pre><code class="language-none">This function is the error function that solves for the current
 period shock that sets w * n1 + x1 - c_min - K_min = Hbar. This is
-the minimum shock that does not create default.</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L191-L197">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Ht-Tuple{Any, Any}" href="#Evans2020.get_Ht-Tuple{Any, Any}"><code>Evans2020.get_Ht</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_Ht</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L170-L172">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_MU_c2_pdf-Tuple{Any, Any}" href="#Evans2020.get_MU_c2_pdf-Tuple{Any, Any}"><code>Evans2020.get_MU_c2_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_MU_c2_pdf</code></p><p>This function is the target for calculating the integral (expectation): E[(c<em>{2,t+1})^(-gamma)].  This function returns the value of ((c</em>{2,t+1})^(-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L429-L434">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_MUc_CRRA-Tuple{Any, Any}" href="#Evans2020.get_MUc_CRRA-Tuple{Any, Any}"><code>Evans2020.get_MUc_CRRA</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_MUc_CRRA</code></p><hr/><p>Generate marginal utility(ies) of consumption with CRRA consumption utility and stitched function at lower bound such that the new hybrid function is defined over all consumption on the real line but the function has similar properties to the Inada condition. u&#39;(c) = c ** (-sigma) if c &gt;= epsilon      = g&#39;(c) = 2 * b2 * c + b1 if c &lt; epsilon</p><p>such that g&#39;(epsilon) = u&#39;(epsilon) and g&#39;&#39;(epsilon) = u&#39;&#39;(epsilon)</p><p>u(c) = (c ** (1 - sigma) - 1) / (1 - sigma) g(c) = b2 * (c ** 2) + b1 * c + b0 –––––––––––––––––––––––––––––––––– INPUTS: c  = scalar, individual consumption in a particular period gamma = scalar &gt;= 1, coefficient of relative risk aversion for CRRA        utility function: (c**(1-gamma) - 1) / (1 - gamma) graph = boolean, =True if want plot of stitched marginal utility of         consumption function</p><p>OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None</p><p>OBJECTS CREATED WITHIN FUNCTION: epsilon    = scalar &gt; 0, positive value close to zero c<em>s        = scalar, individual consumption c</em>s<em>cnstr  = boolean, =True if c</em>s &lt; epsilon b1         = scalar, intercept value in linear marginal utility b2         = scalar, slope coefficient in linear marginal utility MU<em>c       = scalar or (p,) vector, marginal utility of consumption              or vector of marginal utilities of consumption p          = integer &gt;= 1, number of periods remaining in lifetime cvec</em>cnstr = (p,) boolean vector, =True for values of cvec &lt; epsilon</p><p>FILES CREATED BY THIS FUNCTION:     MU<em>c</em>stitched.png</p><p><strong>RETURNS: MU_c</strong></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L249-L291">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Y-Tuple{Any, Any, Any}" href="#Evans2020.get_Y-Tuple{Any, Any, Any}"><code>Evans2020.get_Y</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">get_Y(k2t, zt, args)
+the minimum shock that does not create default.</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L191-L197">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Ht-Tuple{Any, Any}" href="#Evans2020.get_Ht-Tuple{Any, Any}"><code>Evans2020.get_Ht</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_Ht</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L170-L172">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_MU_c2_pdf-Tuple{Any, Any}" href="#Evans2020.get_MU_c2_pdf-Tuple{Any, Any}"><code>Evans2020.get_MU_c2_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_MU_c2_pdf</code></p><p>This function is the target for calculating the integral (expectation): E[(c<em>{2,t+1})^(-gamma)].  This function returns the value of ((c</em>{2,t+1})^(-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L429-L434">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_MUc_CRRA-Tuple{Any, Any}" href="#Evans2020.get_MUc_CRRA-Tuple{Any, Any}"><code>Evans2020.get_MUc_CRRA</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_MUc_CRRA</code></p><hr/><p>Generate marginal utility(ies) of consumption with CRRA consumption utility and stitched function at lower bound such that the new hybrid function is defined over all consumption on the real line but the function has similar properties to the Inada condition. u&#39;(c) = c ** (-sigma) if c &gt;= epsilon      = g&#39;(c) = 2 * b2 * c + b1 if c &lt; epsilon</p><p>such that g&#39;(epsilon) = u&#39;(epsilon) and g&#39;&#39;(epsilon) = u&#39;&#39;(epsilon)</p><p>u(c) = (c ** (1 - sigma) - 1) / (1 - sigma) g(c) = b2 * (c ** 2) + b1 * c + b0 –––––––––––––––––––––––––––––––––– INPUTS: c  = scalar, individual consumption in a particular period gamma = scalar &gt;= 1, coefficient of relative risk aversion for CRRA        utility function: (c**(1-gamma) - 1) / (1 - gamma) graph = boolean, =True if want plot of stitched marginal utility of         consumption function</p><p>OTHER FUNCTIONS AND FILES CALLED BY THIS FUNCTION: None</p><p>OBJECTS CREATED WITHIN FUNCTION: epsilon    = scalar &gt; 0, positive value close to zero c<em>s        = scalar, individual consumption c</em>s<em>cnstr  = boolean, =True if c</em>s &lt; epsilon b1         = scalar, intercept value in linear marginal utility b2         = scalar, slope coefficient in linear marginal utility MU<em>c       = scalar or (p,) vector, marginal utility of consumption              or vector of marginal utilities of consumption p          = integer &gt;= 1, number of periods remaining in lifetime cvec</em>cnstr = (p,) boolean vector, =True for values of cvec &lt; epsilon</p><p>FILES CREATED BY THIS FUNCTION:     MU<em>c</em>stitched.png</p><p><strong>RETURNS: MU_c</strong></p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L249-L291">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_Y-Tuple{Any, Any, Any}" href="#Evans2020.get_Y-Tuple{Any, Any, Any}"><code>Evans2020.get_Y</code></a> — <span class="docstring-category">Method</span></header><section><div><pre><code class="language-julia">get_Y(k2t, zt, args)
 
 --------------------------------------------------------------------
 Calculate aggregate output
@@ -38,7 +38,7 @@ Lt   =
 zt   =
 args =
 
-RETURNS: Yt</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L89-L102">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_c1mgam-Tuple{Any, Any}" href="#Evans2020.get_c1mgam-Tuple{Any, Any}"><code>Evans2020.get_c1mgam</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_c1mgam</code></p><pre><code class="language-none">#--------------------------------------------------------------------
+RETURNS: Yt</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L89-L102">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_c1mgam-Tuple{Any, Any}" href="#Evans2020.get_c1mgam-Tuple{Any, Any}"><code>Evans2020.get_c1mgam</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_c1mgam</code></p><pre><code class="language-none">#--------------------------------------------------------------------
 #Generate marginal utility(ies) of consumption with CRRA consumption
 #utility and stitched function at lower bound such that the new
 #hybrid function is defined over all consumption on the real
@@ -78,7 +78,7 @@ RETURNS: Yt</code></pre></div><a class="docs-sourcelink" target="_blank" href="h
 #    MU_c_stitched.png
 
 #RETURNS: f_c
-#--------------------------------------------------------------------</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L309-L354">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_c2t-Tuple{Any, Any, Any}" href="#Evans2020.get_c2t-Tuple{Any, Any, Any}"><code>Evans2020.get_c2t</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_c2t</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L233-L235">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_c2tp1_1mgam_pdf-Tuple{Any, Any}" href="#Evans2020.get_c2tp1_1mgam_pdf-Tuple{Any, Any}"><code>Evans2020.get_c2tp1_1mgam_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_c2tp1_1mgam_pdf</code></p><p>This function is the target for calculating the integral (expectation): E[(c<em>{2,t+1})^(1-gamma)].  This function returns the value of ((c</em>{2,t+1})^(1-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L447-L453">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_k2tp1-Tuple{Any, Any, Any}" href="#Evans2020.get_k2tp1-Tuple{Any, Any, Any}"><code>Evans2020.get_k2tp1</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_k2tp1</p><hr/><p>Solve for k2tp1 c1t + k2tp1 = wt * n1 - tau * w1 * n1 ––––––––––––––––––––––––––––––––––</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L514-L522">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_r-Tuple{Any, Any, Any}" href="#Evans2020.get_r-Tuple{Any, Any, Any}"><code>Evans2020.get_r</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_r</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L150-L152">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_w-Tuple{Any, Any, Any}" href="#Evans2020.get_w-Tuple{Any, Any, Any}"><code>Evans2020.get_w</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_w</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L131-L133">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_zstar-Tuple{Any, Any, Any}" href="#Evans2020.get_zstar-Tuple{Any, Any, Any}"><code>Evans2020.get_zstar</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_zstar</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L210-L212">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.sim_timepath-NTuple{28, Any}" href="#Evans2020.sim_timepath-NTuple{28, Any}"><code>Evans2020.sim_timepath</code></a> — <span class="docstring-category">Method</span></header><section><div><p>sim<em>timepath(     Hbar, beta, gamma, k20, sigma, x1, T, z0, z</em>min, rho, mu, nvec,     epsilon, alpha, delta, tau, c<em>min, K</em>min, A<em>min, yrs</em>in<em>per,     H</em>ind, risk<em>type</em>ind, risk<em>val</em>ind,     avgrtp1<em>ind, avgrbart</em>ind, S<em>ind, zt</em>vec,     rand_seed)</p><p>Runs the simulation</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L615-L625">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.trunc_norm_draws" href="#Evans2020.trunc_norm_draws"><code>Evans2020.trunc_norm_draws</code></a> — <span class="docstring-category">Function</span></header><section><div><p><code>trunc_norm_draws</code>(unif<em>vals::Any, mu::Any, sigma::Any, cut</em>lb::Any = nothing, cut_ub::Any = nothing)</p><pre><code class="language-none">--------------------------------------------------------------------
+#--------------------------------------------------------------------</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L309-L354">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_c2t-Tuple{Any, Any, Any}" href="#Evans2020.get_c2t-Tuple{Any, Any, Any}"><code>Evans2020.get_c2t</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_c2t</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L233-L235">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_c2tp1_1mgam_pdf-Tuple{Any, Any}" href="#Evans2020.get_c2tp1_1mgam_pdf-Tuple{Any, Any}"><code>Evans2020.get_c2tp1_1mgam_pdf</code></a> — <span class="docstring-category">Method</span></header><section><div><p><code>get_c2tp1_1mgam_pdf</code></p><p>This function is the target for calculating the integral (expectation): E[(c<em>{2,t+1})^(1-gamma)].  This function returns the value of ((c</em>{2,t+1})^(1-gamma)) * pdf(A|mu,sigma) for a given value of A and k2tp1</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L447-L453">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_k2tp1-Tuple{Any, Any, Any}" href="#Evans2020.get_k2tp1-Tuple{Any, Any, Any}"><code>Evans2020.get_k2tp1</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_k2tp1</p><hr/><p>Solve for k2tp1 c1t + k2tp1 = wt * n1 - tau * w1 * n1 ––––––––––––––––––––––––––––––––––</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L514-L522">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_r-Tuple{Any, Any, Any}" href="#Evans2020.get_r-Tuple{Any, Any, Any}"><code>Evans2020.get_r</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_r</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L150-L152">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_w-Tuple{Any, Any, Any}" href="#Evans2020.get_w-Tuple{Any, Any, Any}"><code>Evans2020.get_w</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_w</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L131-L133">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.get_zstar-Tuple{Any, Any, Any}" href="#Evans2020.get_zstar-Tuple{Any, Any, Any}"><code>Evans2020.get_zstar</code></a> — <span class="docstring-category">Method</span></header><section><div><p>get_zstar</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L210-L212">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.sim_timepath-NTuple{28, Any}" href="#Evans2020.sim_timepath-NTuple{28, Any}"><code>Evans2020.sim_timepath</code></a> — <span class="docstring-category">Method</span></header><section><div><p>sim<em>timepath(     Hbar, beta, gamma, k20, sigma, x1, T, z0, z</em>min, rho, mu, nvec,     epsilon, alpha, delta, tau, c<em>min, K</em>min, A<em>min, yrs</em>in<em>per,     H</em>ind, risk<em>type</em>ind, risk<em>val</em>ind,     avgrtp1<em>ind, avgrbart</em>ind, S<em>ind, zt</em>vec,     rand_seed)</p><p>Runs the simulation</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L615-L625">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="Evans2020.trunc_norm_draws" href="#Evans2020.trunc_norm_draws"><code>Evans2020.trunc_norm_draws</code></a> — <span class="docstring-category">Function</span></header><section><div><p><code>trunc_norm_draws</code>(unif<em>vals::Any, mu::Any, sigma::Any, cut</em>lb::Any = nothing, cut_ub::Any = nothing)</p><pre><code class="language-none">--------------------------------------------------------------------
 Draw (N x S) matrix of random draws from a truncated normal
 distribution based on a normal distribution with mean mu and
 standard deviation sigma and cutoffs (cut_lb, cut_ub). These draws
@@ -120,17 +120,17 @@ tnorm_draws = (N, S) matrix, (N,) vector, or scalar in (0,1),
 FILES CREATED BY THIS FUNCTION: None
 
 RETURNS: tnorm_draws
---------------------------------------------------------------------</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/b762e947a90bfc9697a42a34adabc26f666a424e/src/Evans2020.jl#L17-L67">source</a></section></article><h2 id="Case-number-1-:-\\epsilon-1-and-\\mu-is-constant"><a class="docs-heading-anchor" href="#Case-number-1-:-\\epsilon-1-and-\\mu-is-constant">Case number 1 : <span>$\epsilon$</span> = 1 and <span>$\mu$</span> is constant</a><a id="Case-number-1-:-\\epsilon-1-and-\\mu-is-constant-1"></a><a class="docs-heading-anchor-permalink" href="#Case-number-1-:-\\epsilon-1-and-\\mu-is-constant" title="Permalink"></a></h2><h3 id="We-run-the-simulation-code-for-this-first-case-using"><a class="docs-heading-anchor" href="#We-run-the-simulation-code-for-this-first-case-using">We run the simulation code for this first case using</a><a id="We-run-the-simulation-code-for-this-first-case-using-1"></a><a class="docs-heading-anchor-permalink" href="#We-run-the-simulation-code-for-this-first-case-using" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; using Evans2020
+--------------------------------------------------------------------</code></pre></div><a class="docs-sourcelink" target="_blank" href="https://github.com/popohacker/Evans2020.jl/blob/811fa814d9b22d61ce26743c3155fdbf8116a0fc/src/Evans2020.jl#L17-L67">source</a></section></article><h2 id="Case-number-1-:-\\varepsilon-1-and-\\mu-is-constant"><a class="docs-heading-anchor" href="#Case-number-1-:-\\varepsilon-1-and-\\mu-is-constant">Case number 1 : <span>$\varepsilon$</span> = 1 and <span>$\mu$</span> is constant</a><a id="Case-number-1-:-\\varepsilon-1-and-\\mu-is-constant-1"></a><a class="docs-heading-anchor-permalink" href="#Case-number-1-:-\\varepsilon-1-and-\\mu-is-constant" title="Permalink"></a></h2><h3 id="We-run-the-simulation-code-for-this-first-case-using"><a class="docs-heading-anchor" href="#We-run-the-simulation-code-for-this-first-case-using">We run the simulation code for this first case using</a><a id="We-run-the-simulation-code-for-this-first-case-using-1"></a><a class="docs-heading-anchor-permalink" href="#We-run-the-simulation-code-for-this-first-case-using" title="Permalink"></a></h3><pre><code class="language-julia">julia&gt; using Evans2020
 
 julia&gt; include(&quot;FUNC_NPC.jl&quot;)
 
 # Create OUTPUT directory if does not already exist
-cur_path = string(@__DIR__)
-output_fldr = &quot;OUTPUT&quot;
-output_dir = joinpath(cur_path, output_fldr)
-if !ispath(output_dir)
-mkpath(output_dir)
-end 
+julia&gt;  cur_path = string(@__DIR__)
+julia&gt;  output_fldr = &quot;OUTPUT&quot;
+julia&gt;  output_dir = joinpath(cur_path, output_fldr)
+julia&gt;  if !ispath(output_dir)
+         mkpath(output_dir)
+        end 
 
 ###
 #------------------------------------------------------------------------
@@ -175,54 +175,55 @@ end
 #------------------------------------------------------------------------
 #&#39;&#39;&#39;
 
-yrs_in_per = 25
-beta_an = 0.96
-beta = beta_an^yrs_in_per
-gamma = 2.2
-c_min = 1e-5
-K_min = 1e-5
+julia&gt;  yrs_in_per = 25
+julia&gt;  beta_an = 0.96
+julia&gt;  beta = beta_an^yrs_in_per
+julia&gt;  gamma = 2.2
+julia&gt;  c_min = 1e-5
+julia&gt;  K_min = 1e-5
 
 # Firm parameters
-alpha = 1/3
-epsilon = 1.0  # Inf
-delta_an = 0.0
-delta = 1 - ((1 - delta_an)^yrs_in_per)
-nvec = Array([1.0, 0.0])
+julia&gt;  alpha = 1/3
+julia&gt;  epsilon = 1.0  # Inf
+julia&gt;  delta_an = 0.0
+julia&gt;  delta = 1 - ((1 - delta_an)^yrs_in_per)
+julia&gt;  nvec = Array([1.0, 0.0])
 
 # Aggregate shock z parameters
-rho_an = 0.95
-rho = rho_an^yrs_in_per
-mu_an = 0.0
-sigma_an = 0.2  # 0.4946
-rho_sum = 0.0
-rho2_sum = 0.0
-for y_ind in range(0,stop = (yrs_in_per-1),step = 1)
-    rho_sum = rho_sum + rho_an^y_ind
-    rho2_sum = rho2_sum + rho_an^(2*y_ind)
-end 
-sigma = sqrt(rho2_sum*(sigma_an^2))
-mu = mu_an*rho_sum
-A_min = 0.0
-if A_min == 0.0
-    z_min = -Inf
-elseif (A_min &gt; 0.0) &amp;&amp; (A_min &lt; exp(mu))
-    z_min = log(A_min)
-elseif A_min &gt;= exp(mu)
-    print(&quot;Parameter Error: A_min &gt;= e^(mu)&quot;)
-end
+julia&gt;  rho_an = 0.95
+julia&gt;  rho = rho_an^yrs_in_per
+julia&gt;  mu_an = 0.0
+julia&gt;  sigma_an = 0.2  # 0.4946
+julia&gt;  rho_sum = 0.0
+julia&gt;  rho2_sum = 0.0
+julia&gt;  for y_ind in range(0,stop = (yrs_in_per-1),step = 1)
+            rho_sum = rho_sum + rho_an^y_ind
+            rho2_sum = rho2_sum + rho_an^(2*y_ind)
+        end 
+julia&gt;  sigma = sqrt(rho2_sum*(sigma_an^2))
+julia&gt;  mu = mu_an*rho_sum
+julia&gt;  A_min = 0.0
+julia&gt;  if A_min == 0.0
+             z_min = -Inf
+        elseif (A_min &gt; 0.0) &amp;&amp; (A_min &lt; exp(mu))
+              z_min = log(A_min)
+        elseif A_min &gt;= exp(mu)
+        print(&quot;Parameter Error: A_min &gt;= e^(mu)&quot;)
+        end
+        
 
 # Set government parameters, transfer parameters, and initial values
-Hbar_vec = Array([0.0, 0.05])
+julia&gt;  Hbar_vec = Array([0.0, 0.05])
 # self.Hbar_vec = Array([0.0, 0.05, 0.11, 0.17])
-Hbar_size = length(Hbar_vec)
-Hbar = Hbar_vec[1]
-tau = nothing
-z0 = mu
+julia&gt;  Hbar_size = length(Hbar_vec)
+julia&gt;  Hbar = Hbar_vec[1]
+julia&gt;  tau = nothing
+julia&gt;  z0 = mu
 
 # Set simulation parameters
-T = 25
-S = 15
-rand_seed = 25
+julia&gt;  T = 25
+julia&gt;  S = 15
+julia&gt;  rand_seed = 25
 
 # print(&quot;sigma&quot;)
 # print(sigma)
@@ -238,12 +239,12 @@ Calibrate beta, mu, gamma
 ------------------------------------------------------------------------
 &quot;&quot;&quot;
 
-avg_rtp1_size = 3
-avg_rtp1_an_vec = Array(range(0.00,stop = 0.04,length = avg_rtp1_size))
-avg_Rtp1_vec = (1 .+ avg_rtp1_an_vec).^yrs_in_per
-avg_rbart_size = 3
-avg_rbart_an_vec = Array(range(-0.02,stop = 0.01, length = avg_rbart_size))
-avg_Rbart_vec = (1 .+ avg_rbart_an_vec).^yrs_in_per
+julia&gt;  avg_rtp1_size = 3
+julia&gt;  avg_rtp1_an_vec = Array(range(0.00,stop = 0.04,length = avg_rtp1_size))
+julia&gt;  avg_Rtp1_vec = (1 .+ avg_rtp1_an_vec).^yrs_in_per
+julia&gt;  avg_rbart_size = 3
+julia&gt;  avg_rbart_an_vec = Array(range(-0.02,stop = 0.01, length = avg_rbart_size))
+julia&gt;  avg_Rbart_vec = (1 .+ avg_rbart_an_vec).^yrs_in_per
 
 # print(&quot;avg_Rtp1_vec&quot;)
 # print(avg_Rtp1_vec)
@@ -252,58 +253,58 @@ avg_Rbart_vec = (1 .+ avg_rbart_an_vec).^yrs_in_per
 # print(avg_Rbart_vec)
 # print(&quot; &quot;)
 
-avgRtp1_mat = repeat(reshape(avg_Rtp1_vec,(avg_rtp1_size, 1)), 1, avg_rbart_size)
-avgRbart_mat = repeat(reshape(avg_Rbart_vec,(1, avg_rbart_size)), avg_rtp1_size, 1)
-avgRtp1_gt_avgRbart = ((avgRtp1_mat - avgRbart_mat) .&gt; 0) 
+julia&gt;  avgRtp1_mat = repeat(reshape(avg_Rtp1_vec,(avg_rtp1_size, 1)), 1, avg_rbart_size)
+julia&gt;  avgRbart_mat = repeat(reshape(avg_Rbart_vec,(1, avg_rbart_size)), avg_rtp1_size, 1)
+julia&gt;  avgRtp1_gt_avgRbart = ((avgRtp1_mat - avgRbart_mat) .&gt; 0) 
 # print(avgRtp1_gt_avgRbart)
 
 # Calibrate mu using linear production expected MPK
-mu_vec = 1.0786 .* fill!(similar(avg_Rtp1_vec), 1)
+julia&gt;  mu_vec = 1.0786 .* fill!(similar(avg_Rtp1_vec), 1)
 # mu_vec = log.(avg_Rtp1_vec) .- log(alpha) .- ((sigma^2) / 2)
-mu_mat = repeat(reshape(mu_vec,(avg_rtp1_size, 1)), 1, avg_rbart_size)
-mu_mat[.!avgRtp1_gt_avgRbart] .= NaN 
+julia&gt;  mu_mat = repeat(reshape(mu_vec,(avg_rtp1_size, 1)), 1, avg_rbart_size)
+julia&gt;  mu_mat[.!avgRtp1_gt_avgRbart] .= NaN 
 
 # Calibrate beta using Cobb-Douglas expected values expression for beta
-beta_vec = (alpha / (1 - alpha)) .* (1 ./ (2 * avg_Rtp1_vec)) 
-beta_an_vec = beta_vec.^(1 / yrs_in_per)
-beta_mat = repeat(reshape(beta_vec,(avg_rtp1_size, 1)), 1, avg_rbart_size)
-beta_mat[.!avgRtp1_gt_avgRbart] .=  NaN
+julia&gt;  beta_vec = (alpha / (1 - alpha)) .* (1 ./ (2 * avg_Rtp1_vec)) 
+julia&gt;  beta_an_vec = beta_vec.^(1 / yrs_in_per)
+julia&gt;  beta_mat = repeat(reshape(beta_vec,(avg_rtp1_size, 1)), 1, avg_rbart_size)
+julia&gt;  beta_mat[.!avgRtp1_gt_avgRbart] .=  NaN
 
 # Calibrate gamma
-gamma_mat = ((log.(avgRtp1_mat) - log.(avgRbart_mat)) ./ (sigma^2))
-gamma_mat[.!avgRtp1_gt_avgRbart]  .=  NaN
+julia&gt;  gamma_mat = ((log.(avgRtp1_mat) - log.(avgRbart_mat)) ./ (sigma^2))
+julia&gt;  gamma_mat[.!avgRtp1_gt_avgRbart]  .=  NaN
 
 # Calibrate x_1
-x1_mat = (((1 - alpha) * exp.(mu_mat .+ ((sigma ^ 2) / 2)) .* ((2 * beta_mat) .^alpha)) .^ (1 / (1 - alpha)))
+julia&gt;  x1_mat = (((1 - alpha) * exp.(mu_mat .+ ((sigma ^ 2) / 2)) .* ((2 * beta_mat) .^alpha)) .^ (1 / (1 - alpha)))
 
 # Calibrate kbar_2
-kbar2_mat = 2 .* beta_mat .* x1_mat
-Hbar_vec[2] = 0.05 * kbar2_mat[1, 1] # 1.0786
+julia&gt;  kbar2_mat = 2 .* beta_mat .* x1_mat
+julia&gt;  Hbar_vec[2] = 0.05 * kbar2_mat[1, 1] # 1.0786
 # print(&quot;Hbar_vec = &quot;, Hbar_vec)
 
 # Calibrate x_1 array for different values of x1, given calibration
-x1_mat2 = transpose(x1_mat)
-x1_arr = zeros(3, avg_rtp1_size, avg_rbart_size) 
-x1_arr[:, 1, :] = x1_mat2 
-x1_arr[:, 2, :] = 0.5 .* x1_mat2
-x1_arr[:, 3, :] = 0.0 .* x1_mat2 
+julia&gt;  x1_mat2 = transpose(x1_mat)
+julia&gt;  x1_arr = zeros(3, avg_rtp1_size, avg_rbart_size) 
+julia&gt;  x1_arr[:, 1, :] = x1_mat2 
+julia&gt;  x1_arr[:, 2, :] = 0.5 .* x1_mat2
+julia&gt;  x1_arr[:, 3, :] = 0.0 .* x1_mat2 
 
 # Calibrate sigma vector of 5% and 10% increases
-sigma_vec = zeros(3)
-sigma_vec[1] = sigma
-sigma_vec[2] = 1.05 * sigma
-sigma_vec[3] = 1.10 * sigma
+julia&gt;  sigma_vec = zeros(3)
+julia&gt;  sigma_vec[1] = sigma
+julia&gt;  sigma_vec[2] = 1.05 * sigma
+julia&gt;  sigma_vec[3] = 1.10 * sigma
 
 # Calibrate corresponding mu_arr that holds the expected value of the
 # TFP shock while expanding the variance. If ExpA is the expected value of
 # the TFP shock, then ExpA = exp.(mu .+ (sig^2) / 2), then
 # log.(ExpA) = mu .+ (sig^2) / 2
-ExpA = mu_mat .+ (sigma ^ 2) / 2
-mu_mat2 = transpose(mu_mat)
-mu_arr = zeros(3, avg_rtp1_size, avg_rbart_size)
-mu_arr[:, 1, :] = mu_mat2
-mu_arr[:, 2, :] = mu_mat2
-mu_arr[:, 3, :] = mu_mat2
+julia&gt;  ExpA = mu_mat .+ (sigma ^ 2) / 2
+julia&gt;  mu_mat2 = transpose(mu_mat)
+julia&gt;  mu_arr = zeros(3, avg_rtp1_size, avg_rbart_size)
+julia&gt;  mu_arr[:, 1, :] = mu_mat2
+julia&gt;  mu_arr[:, 2, :] = mu_mat2
+julia&gt;  mu_arr[:, 3, :] = mu_mat2
 # mu_arr[:, :, 2] = ExpA .- (sigma_vec[2] ^ 2) / 2
 # mu_arr[:, :, 3] = ExpA .- (sigma_vec[3] ^ 2) / 2
 
@@ -344,124 +345,124 @@ mu_arr[:, 3, :] = mu_mat2
 # print(mu_arr[:, :, 3])
 # print(&quot; &quot;)
 
-default_arr = zeros(S, T, avg_rbart_size, avg_rtp1_size, 3, 2, Hbar_size)
+julia&gt;  default_arr = zeros(S, T, avg_rbart_size, avg_rtp1_size, 3, 2, Hbar_size)
 
-Random.seed!(rand_seed) 
-unif_mat = rand(Uniform(0, 1), (S, T))
+julia&gt;  Random.seed!(rand_seed) 
+julia&gt;  unif_mat = rand(Uniform(0, 1), (S, T))
 
 # First three dimensions of zt_arr correspond to mu_arr in different order
-zt_arr = zeros(S, T, avg_rbart_size, avg_rtp1_size, 3)
+julia&gt;  zt_arr = zeros(S, T, avg_rbart_size, avg_rtp1_size, 3)
 
-cut_lb = 0
-eps_t = 0
-z_t = 0
-z_tm1 = 0
+julia&gt;  cut_lb = 0
+julia&gt;  eps_t = 0
+julia&gt;  z_t = 0
+julia&gt;  z_tm1 = 0
 
-for sig_ind in range(1, stop=(3), step=1)
-    sigma = sigma_vec[sig_ind]
-    for avgrtp1_ind in range(1, stop=(avg_rtp1_size), step=1)
-        for avgrbart_ind in range(1, stop=(avg_rbart_size), step=1)
-            mu = mu_arr[avgrbart_ind, sig_ind, avgrtp1_ind]
-            for s_ind in range(1, stop=(S), step=1)
-                for t_ind in range(1, stop=(T), step=1)
-                    unif = unif_mat[s_ind, t_ind]
-                    if t_ind == 1 &amp;&amp; avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind] == true
-                        cut_lb = z_min - mu
-                        eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
-                        z_t = mu + eps_t
-                    elseif ((t_ind &gt; 1) &amp;&amp; avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind] == true)
-                        z_tm1 = zt_arr[s_ind, t_ind - 1, avgrbart_ind, avgrtp1_ind, sig_ind]
-                        cut_lb = z_min - rho * z_tm1 - (1 - rho) * mu
-                        eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
-                        z_t = rho * z_tm1 + (1 - rho) * mu .+ eps_t 
-                    else
-                        z_t = NaN
-                    end
-                zt_arr[s_ind, t_ind, avgrbart_ind,  avgrtp1_ind, sig_ind] = z_t  
-                end 
+julia&gt;  for sig_ind in range(1, stop=(3), step=1)
+            sigma = sigma_vec[sig_ind]
+             for avgrtp1_ind in range(1, stop=(avg_rtp1_size), step=1)
+                for avgrbart_ind in range(1, stop=(avg_rbart_size), step=1)
+                  mu = mu_arr[avgrbart_ind, sig_ind, avgrtp1_ind]
+                    for s_ind in range(1, stop=(S), step=1)
+                         for t_ind in range(1, stop=(T), step=1)
+                            unif = unif_mat[s_ind, t_ind]
+                                 if t_ind == 1 &amp;&amp; avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind] == true
+                                    cut_lb = z_min - mu
+                                    eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
+                                    z_t = mu + eps_t
+                                 elseif ((t_ind &gt; 1) &amp;&amp; avgRtp1_gt_avgRbart[avgrtp1_ind,avgrbart_ind] == true)
+                                    z_tm1 = zt_arr[s_ind, t_ind - 1, avgrbart_ind, avgrtp1_ind, sig_ind]
+                                    cut_lb = z_min - rho * z_tm1 - (1 - rho) * mu
+                                    eps_t = trunc_norm_draws(unif, 0, sigma, cut_lb)
+                                     z_t = rho * z_tm1 + (1 - rho) * mu .+ eps_t 
+                                  else
+                                      z_t = NaN
+                                  end
+                             zt_arr[s_ind, t_ind, avgrbart_ind,  avgrtp1_ind, sig_ind] = z_t  
+                           end 
+                        end 
+                     end 
+                 end 
             end 
-        end 
-    end 
-end 
 
-c1t_arr = zero(default_arr)
-c2t_arr = zero(default_arr)
-ut_arr = zeros(S, T - 1, avg_rbart_size, avg_rtp1_size, 3, 2, Hbar_size)
-Ht_arr = zero(default_arr)
-wt_arr = zero(default_arr)
-rt_arr = zero(default_arr)
-k2t_arr = zero(default_arr)
-rbart_arr = zero(default_arr)
-rbart_an_arr = zero(default_arr)
-EulErr_arr = zero(default_arr)
-PathTime_arr = zeros(avg_rbart_size, S, avg_rtp1_size, 3, 2, Hbar_size)
-s_ind_arr = zeros(avg_rbart_size, S, avg_rtp1_size, 3, 2, Hbar_size)
+julia&gt;  c1t_arr = zero(default_arr)
+julia&gt;  c2t_arr = zero(default_arr)
+julia&gt;  ut_arr = zeros(S, T - 1, avg_rbart_size, avg_rtp1_size, 3, 2, Hbar_size)
+julia&gt;  Ht_arr = zero(default_arr)
+julia&gt;  wt_arr = zero(default_arr)
+julia&gt;  rt_arr = zero(default_arr)
+julia&gt;  k2t_arr = zero(default_arr)
+julia&gt;  rbart_arr = zero(default_arr)
+julia&gt;  rbart_an_arr = zero(default_arr)
+julia&gt;  EulErr_arr = zero(default_arr)
+julia&gt;  PathTime_arr = zeros(avg_rbart_size, S, avg_rtp1_size, 3, 2, Hbar_size)
+julia&gt;  s_ind_arr = zeros(avg_rbart_size, S, avg_rtp1_size, 3, 2, Hbar_size)
 
-for rtp1_ind in range(1, stop=(avg_rtp1_size), step=1) 
-    for rbart_ind in range(1, stop=(avg_rbart_size), step=1) 
-        kbar2_mat2 = (!iszero).(kbar2_mat)
-        k2t_arr[:, 1, rbart_ind, rtp1_ind, :, :, :] .=  kbar2_mat2[rtp1_ind, rbart_ind]
-    end
-end
+julia&gt;  for rtp1_ind in range(1, stop=(avg_rtp1_size), step=1) 
+            for rbart_ind in range(1, stop=(avg_rbart_size), step=1) 
+                 kbar2_mat2 = (!iszero).(kbar2_mat)
+                 k2t_arr[:, 1, rbart_ind, rtp1_ind, :, :, :] .=  kbar2_mat2[rtp1_ind, rbart_ind]
+            end
+        end
 
-mu_in = 0
-sigma_in = 0
-x1_in = 0
-z0_vec_in = 0
-gamma_in = 0
-beta_in = 0
-k20_in = 0
-simulations = 0
-H_ind = 1
-risk_type_ind = 1
-risk_val_ind = 1
-avgrtp1_ind = 1
-avgrbart_ind = 1
-timepaths_s = 0
-for H_ind in 1:Hbar_size
-    Hbar_in = Hbar_vec[H_ind]
-    for risk_type_ind in 1:2 #0=xval, 1=sigval
-        for risk_val_ind in 1:3
-            for avgrtp1_ind in 1:avg_rtp1_size
-                for avgrbart_ind in 1:avg_rbart_size
-                    if avgRtp1_gt_avgRbart[avgrtp1_ind, avgrbart_ind]
-                        simulations = []
-                        beta_in = beta_mat[avgrtp1_ind, avgrbart_ind]
-                        gamma_in = gamma_mat[avgrtp1_ind, avgrbart_ind]
-                        k20_in = kbar2_mat[avgrtp1_ind, avgrbart_ind]
-                        if risk_type_ind == 1
-                            mu_in = mu_mat[avgrtp1_ind, avgrbart_ind]
-                            sigma_in = sigma_vec[1]
-                            x1_in = x1_arr[avgrbart_ind, risk_val_ind, avgrtp1_ind]
-                            z0_vec_in = zt_arr[:, 1, avgrbart_ind, avgrtp1_ind, 1]
-                        elseif risk_type_ind == 2 
-                            mu_in = mu_arr[avgrbart_ind, risk_val_ind, avgrtp1_ind]
-                            sigma_in = sigma_vec[risk_val_ind]
-                            x1_in = x1_mat[avgrtp1_ind, avgrbart_ind]
-                            z0_vec_in = zt_arr[ :, 1, avgrbart_ind, avgrtp1_ind, risk_val_ind,]
-                        end
+julia&gt;  mu_in = 0
+julia&gt;  sigma_in = 0
+julia&gt;  x1_in = 0
+julia&gt;  z0_vec_in = 0
+julia&gt;  gamma_in = 0
+julia&gt;  beta_in = 0
+julia&gt;  k20_in = 0
+julia&gt;  simulations = 0
+julia&gt;  H_ind = 1
+julia&gt;  risk_type_ind = 1
+julia&gt;  risk_val_ind = 1
+julia&gt;  avgrtp1_ind = 1
+julia&gt;  avgrbart_ind = 1
+julia&gt;  timepaths_s = 0
+julia&gt;  for H_ind in 1:Hbar_size
+            Hbar_in = Hbar_vec[H_ind]
+              for risk_type_ind in 1:2 #0=xval, 1=sigval
+                 for risk_val_ind in 1:3
+                        for avgrtp1_ind in 1:avg_rtp1_size
+                          for avgrbart_ind in 1:avg_rbart_size
+                             if avgRtp1_gt_avgRbart[avgrtp1_ind, avgrbart_ind]
+                                   simulations = []
+                                   beta_in = beta_mat[avgrtp1_ind, avgrbart_ind]
+                                   gamma_in = gamma_mat[avgrtp1_ind, avgrbart_ind]
+                                   k20_in = kbar2_mat[avgrtp1_ind, avgrbart_ind]
+                                  if risk_type_ind == 1
+                                        mu_in = mu_mat[avgrtp1_ind, avgrbart_ind]
+                                        sigma_in = sigma_vec[1]
+                                        x1_in = x1_arr[avgrbart_ind, risk_val_ind, avgrtp1_ind]
+                                        z0_vec_in = zt_arr[:, 1, avgrbart_ind, avgrtp1_ind, 1]
+                                   elseif risk_type_ind == 2 
+                                         mu_in = mu_arr[avgrbart_ind, risk_val_ind, avgrtp1_ind]
+                                         sigma_in = sigma_vec[risk_val_ind]
+                                         x1_in = x1_mat[avgrtp1_ind, avgrbart_ind]
+                                         z0_vec_in = zt_arr[ :, 1, avgrbart_ind, avgrtp1_ind, risk_val_ind,]
+                                    end
 
-                        for s_ind in 1:S
-                            z0_in = z0_vec_in[s_ind]
-                            if risk_type_ind == 1
-                                zt_vec_in = zt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, 1]
-                            elseif risk_type_ind == 2
-                                zt_vec_in = zt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_type_ind,]
-                            end
-                            timepaths_s = sim_timepath(
-                                Hbar_in, beta_in, gamma_in, k20_in,
-                                sigma_in, x1_in, T, z0_in, z_min, rho,
-                                mu_in, nvec, epsilon, alpha, delta, tau,
-                                c_min, K_min, A_min, yrs_in_per,
-                                H_ind,
-                                risk_type_ind,
-                                risk_val_ind,
-                                avgrtp1_ind,
-                                avgrbart_ind, s_ind,
-                                zt_vec_in,
-                                rand_seed)
-                            push!(simulations, timepaths_s)
-                        end
+                                    for s_ind in 1:S
+                                       z0_in = z0_vec_in[s_ind]
+                                        if risk_type_ind == 1
+                                                zt_vec_in = zt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, 1]
+                                        elseif risk_type_ind == 2
+                                            zt_vec_in = zt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_type_ind,]
+                                        end
+                                     timepaths_s = sim_timepath(
+                                         Hbar_in, beta_in, gamma_in, k20_in,
+                                         sigma_in, x1_in, T, z0_in, z_min, rho,
+                                          mu_in, nvec, epsilon, alpha, delta, tau,
+                                          c_min, K_min, A_min, yrs_in_per,
+                                          H_ind,
+                                          risk_type_ind,
+                                          risk_val_ind,
+                                          avgrtp1_ind,
+                                          avgrbart_ind, s_ind,
+                                          zt_vec_in,
+                                          rand_seed)
+                                     push!(simulations, timepaths_s)
+                                  end
                         
                         for s_ind in 1:S
                             s_ind_arr[avgrbart_ind, s_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = simulations[s_ind][6] # original S_ind
@@ -473,7 +474,7 @@ for H_ind in 1:Hbar_size
                             wt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][13])  # wt_vec
                             rt_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][14])  # rt_vec
                             pop!(simulations[s_ind][15])
-                            k2t_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][15])  # k2t_vec[:-1]
+                            k2t_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][15])  #        k2t_vec[:-1]
                             rbart_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][16])  # rbart_vec
                             rbart_an_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][17])  # rbart_an_vec
                             EulErr_arr[s_ind, :, avgrbart_ind, avgrtp1_ind, risk_val_ind, risk_type_ind, H_ind] = (!iszero).(simulations[s_ind][18])  # EulErr_vec
@@ -519,17 +520,17 @@ for H_ind in 1:Hbar_size
 end
 
 
-default_p1 = default_arr
-default_p1[:, 1, :, :, :, :, :] = zeros(S, 1, 3, 3, 3, 2, 2)
+julia&gt; default_p1 = default_arr
+julia&gt; default_p1[:, 1, :, :, :, :, :] = zeros(S, 1, 3, 3, 3, 2, 2)
 
-zt_arr_macro = repeat(reshape(zt_arr,(S, T, avg_rbart_size, avg_rtp1_size, 3, 1, 1)), 1, 1, 1, 1, 1, Hbar_size, 2)
+julia&gt; zt_arr_macro = repeat(reshape(zt_arr,(S, T, avg_rbart_size, avg_rtp1_size, 3, 1, 1)), 1, 1, 1, 1, 1, Hbar_size, 2)
 
-Kt_arr = (1 .- default_p1) .* k2t_arr
-Y_args = (nvec, epsilon, alpha)
-Yt_arr = (1 .- default_p1) .* get_Y(Kt_arr, zt_arr_macro, Y_args)
-Ct_arr = (1 .- default_p1) .* get_C(c1t_arr, c2t_arr)
+julia&gt; Kt_arr = (1 .- default_p1) .* k2t_arr
+julia&gt; Y_args = (nvec, epsilon, alpha)
+julia&gt; Yt_arr = (1 .- default_p1) .* get_Y(Kt_arr, zt_arr_macro, Y_args)
+julia&gt; Ct_arr = (1 .- default_p1) .* get_C(c1t_arr, c2t_arr)
 
-dict_params = Dict(
+julia&gt; dict_params = Dict(
         &quot;yrs_in_per&quot; =&gt; yrs_in_per,
         &quot;beta_an&quot; =&gt; beta_an,
         &quot;beta&quot; =&gt; beta,
@@ -581,7 +582,7 @@ dict_params = Dict(
         &quot;sigma_vec&quot; =&gt; sigma_vec,
         &quot;ExpA&quot; =&gt; ExpA)
 
-dict_endog = Dict(
+julia&gt; dict_endog = Dict(
         &quot;unif_mat&quot; =&gt; unif_mat,
         &quot;zt_arr&quot; =&gt; zt_arr ,
         &quot;c1t_arr&quot; =&gt;  c1t_arr,
@@ -601,7 +602,7 @@ dict_endog = Dict(
         &quot;s_ind_arr&quot; =&gt;  s_ind_arr)
 
 results_sims = Dict(&quot;dict_params&quot; =&gt; dict_params, &quot;dict_endog&quot; =&gt; dict_endog)
-save(&quot;results_sims.jld2&quot;, results_sims)</code></pre><p>It gives us the following output : (il faudra mettre notre tableau là)</p><p><img src="./assets/fig5uk.png" alt="fig5uk"/></p><p>We can compare it with the original outpu from the paper : </p><p>end</p><h1 id="Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)"><a class="docs-heading-anchor" href="#Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)">Our Replication of The Cash Paradox (Jiang &amp; Shao, 2019)</a><a id="Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)-1"></a><a class="docs-heading-anchor-permalink" href="#Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)" title="Permalink"></a></h1><blockquote><p>This replication study was part of our evaluation for the course <a href="https://floswald.github.io/NumericalMethods/">Numerical Methods</a> at SciencesPo Paris in Spring 2021</p></blockquote><p>The functions used to replicate this paper are:</p><pre><code class="language-">Modules = [CashParadox]</code></pre><h2 id="Replication-of-model-predictions:-Figures-5a-5d"><a class="docs-heading-anchor" href="#Replication-of-model-predictions:-Figures-5a-5d">Replication of model predictions: Figures 5a-5d</a><a id="Replication-of-model-predictions:-Figures-5a-5d-1"></a><a class="docs-heading-anchor-permalink" href="#Replication-of-model-predictions:-Figures-5a-5d" title="Permalink"></a></h2><h3 id="Figure-5a:-AUSTRALIA"><a class="docs-heading-anchor" href="#Figure-5a:-AUSTRALIA">Figure 5a: AUSTRALIA</a><a id="Figure-5a:-AUSTRALIA-1"></a><a class="docs-heading-anchor-permalink" href="#Figure-5a:-AUSTRALIA" title="Permalink"></a></h3><p>In order to create this figure, type</p><pre><code class="language-julia">julia&gt; using Cash Paradox
+save(&quot;results_sims.jld2&quot;, results_sims)</code></pre><p>It gives us the following output : (il faudra mettre notre tableau là)</p><p>We can compare it with the original outpu from the paper : </p><p><img src="./fig5uk.png" alt="originaltab1"/></p><p>end</p><h1 id="Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)"><a class="docs-heading-anchor" href="#Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)">Our Replication of The Cash Paradox (Jiang &amp; Shao, 2019)</a><a id="Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)-1"></a><a class="docs-heading-anchor-permalink" href="#Our-Replication-of-The-Cash-Paradox-(Jiang-and-Shao,-2019)" title="Permalink"></a></h1><blockquote><p>This replication study was part of our evaluation for the course <a href="https://floswald.github.io/NumericalMethods/">Numerical Methods</a> at SciencesPo Paris in Spring 2021</p></blockquote><p>The functions used to replicate this paper are:</p><pre><code class="language-">Modules = [CashParadox]</code></pre><h2 id="Replication-of-model-predictions:-Figures-5a-5d"><a class="docs-heading-anchor" href="#Replication-of-model-predictions:-Figures-5a-5d">Replication of model predictions: Figures 5a-5d</a><a id="Replication-of-model-predictions:-Figures-5a-5d-1"></a><a class="docs-heading-anchor-permalink" href="#Replication-of-model-predictions:-Figures-5a-5d" title="Permalink"></a></h2><h3 id="Figure-5a:-AUSTRALIA"><a class="docs-heading-anchor" href="#Figure-5a:-AUSTRALIA">Figure 5a: AUSTRALIA</a><a id="Figure-5a:-AUSTRALIA-1"></a><a class="docs-heading-anchor-permalink" href="#Figure-5a:-AUSTRALIA" title="Permalink"></a></h3><p>In order to create this figure, type</p><pre><code class="language-julia">julia&gt; using Cash Paradox
 
 julia&gt; Fig5(2)</code></pre><p><img src="./assets/fig5aus.png" alt="fig5aus"/></p><h3 id="Figure-5b:-CANADA"><a class="docs-heading-anchor" href="#Figure-5b:-CANADA">Figure 5b: CANADA</a><a id="Figure-5b:-CANADA-1"></a><a class="docs-heading-anchor-permalink" href="#Figure-5b:-CANADA" title="Permalink"></a></h3><p>In order to create this figure, type</p><pre><code class="language-julia">julia&gt; using Cash Paradox
 
@@ -631,4 +632,4 @@ julia&gt; FigD2()</code></pre><p><img src="./assets/figD2.png" alt="figD2"/></p>
 
 julia&gt; Table1()</code></pre><p><img src="./assets/t1.png" alt="figG1"/></p><h2 id="Replication-of-Table-D.1:-Parameter-values-and-Table-D.2:-Model-performance-comparison"><a class="docs-heading-anchor" href="#Replication-of-Table-D.1:-Parameter-values-and-Table-D.2:-Model-performance-comparison">Replication of Table D.1: Parameter values and Table D.2: Model performance comparison</a><a id="Replication-of-Table-D.1:-Parameter-values-and-Table-D.2:-Model-performance-comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Replication-of-Table-D.1:-Parameter-values-and-Table-D.2:-Model-performance-comparison" title="Permalink"></a></h2><p>In order to create a dataframe containing this results type</p><pre><code class="language-julia">julia&gt; using Cash Paradox
 
-julia&gt; Table2()</code></pre><p><img src="./assets/t2.png" alt="figD1D2"/></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 21 May 2021 12:53">Friday 21 May 2021</span>. Using Julia version 1.6.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+julia&gt; Table2()</code></pre><p><img src="./assets/t2.png" alt="figD1D2"/></p></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 21 May 2021 13:31">Friday 21 May 2021</span>. Using Julia version 1.6.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
